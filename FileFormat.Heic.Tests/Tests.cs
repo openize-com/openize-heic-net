@@ -211,7 +211,8 @@ namespace FileFormat.Heic.Tests
         private static string GetProjectPath()
         {
             var path = new Uri(Assembly.GetExecutingAssembly().GetName().CodeBase).LocalPath;
-            return path.Remove(path.IndexOf("\\bin"));
+            var binIndex = Math.Max(path.IndexOf("/bin"), path.IndexOf("\\bin"));
+            return path.Remove(binIndex);
         }
 
         /// <summary>
