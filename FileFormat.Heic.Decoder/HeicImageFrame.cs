@@ -1,6 +1,6 @@
 ﻿/*
- * FileFormat.HEIC 
- * Copyright (c) 2024 Openize Pty Ltd. 
+ * FileFormat.HEIC
+ * Copyright (c) 2024 Openize Pty Ltd.
  *
  * This file is part of FileFormat.HEIC.
  *
@@ -40,7 +40,7 @@ namespace FileFormat.Heic.Decoder
         #region Internal Fields
 
         /// <summary>
-        /// Hevc decoder configuration information from Isobmff container. 
+        /// Hevc decoder configuration information from Isobmff container.
         /// </summary>
         internal HEVCDecoderConfigurationRecord hvcConfig;
 
@@ -207,7 +207,7 @@ namespace FileFormat.Heic.Decoder
         }
 
         /// <summary>
-        /// Get pixel data in the format of integer array. 
+        /// Get pixel data in the format of integer array.
         /// <para>Each int value refers to one pixel left to right top to bottom line by line.</para>
         /// </summary>
         /// <param name="pixelFormat">Pixel format that defines the order of colors.</param>
@@ -402,9 +402,9 @@ namespace FileFormat.Heic.Decoder
                     }
 
                     if (imageMirrorAxis == 1) // vertical
-                        oldRow = Height - oldRow;
-                    else if (imageMirrorAxis == 2) // horisontal
-                        oldCol = Width - oldCol;
+                        oldRow = Height - oldRow - 1;
+                    else if (imageMirrorAxis == 2) // horizontal
+                        oldCol = Width - oldCol - 1;
 
                     for (int i = 0; i < 4; i++)
                         rotated[newCol, newRow, i] = pixels[oldCol, oldRow, i];
