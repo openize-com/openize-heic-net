@@ -1,4 +1,4 @@
-/*
+﻿/*
  * FileFormat.HEIC 
  * Copyright (c) 2024 Openize Pty Ltd. 
  *
@@ -319,9 +319,11 @@ namespace FileFormat.Heic.Decoder
             if (rgba == null)
                 return null;
 
+            rgba = TransformImage(rgba);
+
             rgba = AddAlphaLayer(rgba, boundsRectangle);
 
-            return TransformImage(rgba);
+            return rgba;
         }
 
         private Rectangle ValidateBounds(Rectangle boundsRectangle)
@@ -371,45 +373,43 @@ namespace FileFormat.Heic.Decoder
                     {
                         case 3:
                             oldCol = newRow;
-                            break;
-                        case 2:
-                            oldCol = Width - newCol - 1;
-                            break;
-                        case 1:
-                            oldCol = Height - newRow - 1;
-                            break;
-                        case 0:
-                        default:
-                            oldCol = newCol;
-                            break;
-                    }
-
-                    switch (imageRotationAngle)
-                    {
-                        case 3:
                             oldRow = Width - newCol - 1;
                             break;
                         case 2:
+                            oldCol = Width - newCol - 1;
                             oldRow = Height - newRow - 1;
                             break;
                         case 1:
+                            oldCol = Height - newRow - 1;
                             oldRow = newCol;
                             break;
                         case 0:
                         default:
+                            oldCol = newCol;
                             oldRow = newRow;
                             break;
                     }
 
                     if (imageMirrorAxis == 1) // vertical
-                        oldRow = Height - oldRow;
-                    else if (imageMirrorAxis == 2) // horisontal
-                        oldCol = Width - oldCol;
+                    {
+                        if (imageRotationAngle == 0 || imageRotationAngle == 2)
+                            oldRow = Height - oldRow - 1;
+                        else
+                            oldCol = Height - oldCol - 1;
+                    }
+                    else if (imageMirrorAxis == 2) // horizontal
+                    {
+                        if (imageRotationAngle == 0 || imageRotationAngle == 2)
+                            oldCol = Width - oldCol - 1;
+                        else
+                            oldRow = Width - oldRow - 1;
+                    }
 
                     for (int i = 0; i < 4; i++)
                         rotated[newCol, newRow, i] = pixels[oldCol, oldRow, i];
                 }
             }
+
             return rotated;
         }
 
@@ -458,11 +458,11 @@ namespace FileFormat.Heic.Decoder
 
             while (stream.GetBitPosition()/8 < end)
             {
-            NalUnit.ParseUnit(stream);
+                NalUnit.ParseUnit(stream);
             }
 
             if (stream.Context.Pictures.ContainsKey(id))
-            rawPixels = stream.Context.Pictures[id].pixels;
+                rawPixels = stream.Context.Pictures[id].pixels;
             else
             {
                 throw new EntryPointNotFoundException($"Image #{id} was not loaded [NalUnit not found].");

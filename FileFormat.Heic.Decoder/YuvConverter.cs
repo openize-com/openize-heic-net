@@ -57,6 +57,9 @@ namespace FileFormat.Heic.Decoder
 
             byte[,,] pixels = new byte[width, height, 4];
 
+            if (picture.rawPixels == null)
+                return pixels;
+
             double Y, Cr, Cb, R, G, B;
 
             int chromaHalfRange = 1 << (picture.hvcConfig.SPS.BitDepthC - 1);
