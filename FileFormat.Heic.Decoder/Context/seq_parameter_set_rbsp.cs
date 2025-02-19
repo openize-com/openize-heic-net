@@ -343,8 +343,8 @@ namespace FileFormat.Heic.Decoder
                 aspect_ratio_idc = (byte)stream.Read(8);                   // u(8)
                 if (aspect_ratio_idc == 255)
                 {
-                    sar_width = (ushort)stream.Read(8);                    // u(16)
-                    sar_height = (ushort)stream.Read(8);                   // u(16)
+                    sar_width = (ushort)stream.Read(16);                    // u(16)
+                    sar_height = (ushort)stream.Read(16);                   // u(16)
                 }
             }
 

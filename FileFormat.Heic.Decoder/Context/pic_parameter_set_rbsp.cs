@@ -1,4 +1,4 @@
-﻿/*
+/*
  * FileFormat.HEIC 
  * Copyright (c) 2024 Openize Pty Ltd. 
  *
@@ -332,7 +332,7 @@ namespace FileFormat.Heic.Decoder
             for (int i = 0; i <= num_tile_columns_minus1; i++)
                 ColumnWidthInLumaSamples[i] = colWidth[i] << sps.CtbLog2SizeY;
 
-            for (int i = 0; i <= num_tile_columns_minus1; i++)
+            for (int i = 0; i <= num_tile_rows_minus1; i++)
                 RowHeightInLumaSamples[i] = rowHeight[i] << sps.CtbLog2SizeY;
         }
 

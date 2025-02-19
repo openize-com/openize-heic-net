@@ -15,7 +15,7 @@ namespace FileFormat.IsoBmff
     /// <summary>
     /// The clean aperture transformative item property defines a cropping transformation of the input image.
     /// </summary>
-    public class CleanApertureBox : FullBox
+    public class CleanApertureBox : Box
     {
         /// <summary>
         /// A numerator of the fractional number which defines the exact clean aperture width, in counted pixels, of the image.
@@ -67,7 +67,7 @@ namespace FileFormat.IsoBmff
         /// </summary>
         /// <param name="stream">File stream.</param>
         /// <param name="size">Box size in bytes.</param>
-        public CleanApertureBox(BitStreamReader stream, ulong size) : base(stream, BoxType.clap, size)
+        public CleanApertureBox(BitStreamReader stream, ulong size) : base(BoxType.clap, size)
         {
             cleanApertureWidthN = (uint)stream.Read(32);
             cleanApertureWidthD = (uint)stream.Read(32);
