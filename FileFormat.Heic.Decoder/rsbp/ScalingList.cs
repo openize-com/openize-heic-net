@@ -1,4 +1,4 @@
-﻿/*
+/*
  * FileFormat.HEIC 
  * Copyright (c) 2024 Openize Pty Ltd. 
  *
@@ -63,6 +63,8 @@ namespace FileFormat.Heic.Decoder
 
         internal static void Initiate(seq_parameter_set_rbsp sps)
         {
+            if (ScalingFactor != null) return;
+
             ScalingFactor = new int[4][][,];
 
             for (int i = 0; i < 4; i++)

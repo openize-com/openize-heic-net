@@ -1,4 +1,4 @@
-﻿/*
+/*
  * FileFormat.IsoBmff
  * Copyright (c) 2024 Openize Pty Ltd. 
  *
@@ -210,8 +210,13 @@ namespace FileFormat.IsoBmff
         /// </summary>
         /// <param name="type">Box type.</param>
         /// <param name="parser">External box constructor.</param>
-        public static void SetExternalConstructor(BoxType type, ExternalBoxConstructor parser){
+        public static void SetExternalConstructor(BoxType type, ExternalBoxConstructor parser)
+        {
+            lock (_externalParsersDictionary)
+            {
+                if (!_externalParsersDictionary.ContainsKey(type))
             _externalParsersDictionary[type] = parser;
+            }
         }
 
         /// <summary>
