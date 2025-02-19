@@ -1,4 +1,4 @@
-/*
+﻿/*
  * FileFormat.IsoBmff
  * Copyright (c) 2024 Openize Pty Ltd. 
  *
@@ -199,6 +199,10 @@ namespace FileFormat.IsoBmff
             }
 
             ulong currentPosition = stream.GetBitPosition();
+
+            if (currentPosition - startPosition > (ulong)size * 8)
+                throw new DataMisalignedException();
+
             if (currentPosition - startPosition < size * 8)
                 stream.SkipBits((int)(size * 8 - (currentPosition - startPosition)));
 
@@ -215,7 +219,7 @@ namespace FileFormat.IsoBmff
             lock (_externalParsersDictionary)
             {
                 if (!_externalParsersDictionary.ContainsKey(type))
-            _externalParsersDictionary[type] = parser;
+                    _externalParsersDictionary[type] = parser;
             }
         }
 

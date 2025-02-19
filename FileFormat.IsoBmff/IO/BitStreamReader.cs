@@ -62,6 +62,9 @@ namespace FileFormat.IsoBmff.IO
         /// <returns>Unsinged long value.</returns>
         public ulong GetBitPosition()
 		{
+            if (stream.Position == 0 && state.BufferPosition == -1)
+                return 0;
+
 			return (ulong)((stream.Position - state.BufferActiveLength + state.BufferPosition) * 8 + state.BitIndex);
         }
 
