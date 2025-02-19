@@ -97,7 +97,7 @@ namespace FileFormat.Heic.Decoder
                 }
 
                 if (decodeQp)
-                    stream.Context.DerivationOfQuantizationParameters(stream, picture, x0, y0, xBase, yBase, log2TrafoSize);
+                    stream.Context.DerivationOfQuantizationParameters(stream, picture, x0, y0, xBase, yBase);
             }
 
             if (cbfLuma)

@@ -30,7 +30,7 @@ namespace FileFormat.Heic.Decoder
             PartMode = PartMode.PART_2Nx2N;
             IntraSplitFlag = false;
 
-            stream.Context.DerivationOfQuantizationParameters(stream, picture, x0, y0, x0, y0, log2CbSize);
+            stream.Context.DerivationOfQuantizationParameters(stream, picture, x0, y0, x0, y0);
 
             if (header.pps.transquant_bypass_enabled_flag)
                 stream.Context.cu_transquant_bypass_flag = stream.Cabac.read_cu_transquant_bypass_flag();

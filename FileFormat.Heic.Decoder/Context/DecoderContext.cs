@@ -124,7 +124,7 @@ namespace FileFormat.Heic.Decoder
 
 
         // 8.6.1 Derivation process for quantization parameters
-        internal void DerivationOfQuantizationParameters(BitStreamWithNalSupport stream, HeicPicture picture, int xCb, int yCb, int xCUBase, int yCUBase, int log2TrafoSize)
+        internal void DerivationOfQuantizationParameters(BitStreamWithNalSupport stream, HeicPicture picture, int xCb, int yCb, int xCUBase, int yCUBase)
         {
             // Input to this process is a luma location ( xCb, yCb ) specifying the top-left sample of the current luma
             // coding block relative to the top-left luma sample of the current picture.
@@ -145,8 +145,6 @@ namespace FileFormat.Heic.Decoder
 
             int qPY_PREV, qPY_PRED;
 
-            bool firstQgInTile = false;
-
             int ctbLSBMask = ((1 << picture.sps.CtbLog2SizeY) - 1);
             bool firstInCTBRow = (xQg == 0 && ((yQg & ctbLSBMask) == 0));
 
@@ -156,6 +154,8 @@ namespace FileFormat.Heic.Decoder
             uint SliceStartY = (first_ctb_in_slice_RS / picture.sps.PicWidthInCtbsY) * picture.sps.CtbSizeY;
 
             bool firstQgInSlice = ((int)SliceStartX == xQg && (int)SliceStartY == yQg);
+
+            bool firstQgInTile = false;
 
             if (picture.pps.tiles_enabled_flag)
                 throw new NotImplementedException("Tile mode is not supported");
@@ -213,7 +213,12 @@ namespace FileFormat.Heic.Decoder
                 stream.Context.QpCr = qPCr + picture.sps.QpBdOffsetC;
             }
 
-            picture.SetQpY(xCUBase, yCUBase, log2TrafoSize < 3 ? 3 : log2TrafoSize, stream.Context.QpY);
+            var log2CbSize = picture.Log2CbSize[xCUBase, yCUBase];
+
+            if (log2CbSize < 3)
+                log2CbSize = 3;
+
+            picture.SetQpY(xCUBase, yCUBase, log2CbSize, stream.Context.QpY);
         }
 
         private int GetNeighbouringQpY(HeicPicture picture, slice_segment_header slice_header, int qPY_PREV,
