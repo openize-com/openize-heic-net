@@ -1,4 +1,4 @@
-/*
+﻿/*
  * FileFormat.HEIC 
  * Copyright (c) 2024 Openize Pty Ltd. 
  *

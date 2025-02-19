@@ -61,7 +61,10 @@ namespace FileFormat.Heic.Decoder
                     case NalUnitType.PPS_NUT:     // 34
                         nalUnit = new pic_parameter_set_rbsp(stream, startPosition, size);
                         break;
-
+                    case NalUnitType.PREFIX_SEI_NUT: // 39
+                    case NalUnitType.SUFFIX_SEI_NUT: // 40
+                        nalUnit = new sei_payload_rbsp(stream, startPosition, size, type);
+                        break;
                     default:
                         nalUnit = new NalUnit(stream, startPosition, size);
                         break;

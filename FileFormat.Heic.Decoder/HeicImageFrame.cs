@@ -1,4 +1,4 @@
-﻿/*
+/*
  * FileFormat.HEIC 
  * Copyright (c) 2024 Openize Pty Ltd. 
  *
@@ -453,8 +453,22 @@ namespace FileFormat.Heic.Decoder
         {
             stream.CurrentImageId = id;
             stream.SetBytePosition(locationBox.base_offset + locationBox.extents[0].offset);
+
+            var end = locationBox.base_offset + locationBox.extents[0].offset + locationBox.extents[0].length;
+
+            while (stream.GetBitPosition()/8 < end)
+            {
             NalUnit.ParseUnit(stream);
+            }
+
+            if (stream.Context.Pictures.ContainsKey(id))
             rawPixels = stream.Context.Pictures[id].pixels;
+            else
+            {
+                throw new EntryPointNotFoundException($"Image #{id} was not loaded [NalUnit not found].");
+                rawPixels = null;
+            }
+
             cashed = true;
             stream.DeleteImageContext(id);
             return rawPixels;
