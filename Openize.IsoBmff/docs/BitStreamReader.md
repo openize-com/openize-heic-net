@@ -30,7 +30,7 @@ Name | Type | Description | Notes
 ## Constructors
 
 Name | Description | Parameters
------------- | ------------- | ------------- | -------------
+------------ | ------------- | ------------- 
 **BitStreamReader** | The constructor takes a Stream object and an optional buffer size as parameters. | Stream <b>stream</b> - The source stream.<br />int <b>bufferSize</b> - The buffer size.
 
 [[Back to API_README]](API_README.md)

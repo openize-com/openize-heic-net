@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Constructors
 
 Name | Description | Parameters
------------- | ------------- | ------------- | -------------
+------------ | ------------- | -------------
 **OperatingPointsInformationProperty** | NOT IMPLEMENTED. | BitStreamReader <b>stream</b> - File stream.<br />ulong <b>size</b> - Box size in bytes.
 
 [[Back to API_README]](API_README.md)

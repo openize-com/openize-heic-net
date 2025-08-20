@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 
 Name | Type | Description | Parameters
 ------------ | ------------- | ------------- | -------------
-**ParceBox** | **Box** | Read next box from stream. | BitStreamReader <b>stream</b> - File stream reader.
+**ParseBox** | **Box** | Read next box from stream. | BitStreamReader <b>stream</b> - File stream reader.
 **SetExternalConstructor** | **void** | Add external constructor for unimplemented box type. | BoxType <b>type</b> - Box type.<br />ExternalBoxConstructor <b>parser</b> - External box constructor.
 **UintToString** | **string** | Convert uint value to string with ASCII coding. | uint <b>value</b> - Unsigned integer.
 
@@ -32,7 +32,7 @@ Name | Type | Description | Notes
 ## Constructors
 
 Name | Description | Parameters
------------- | ------------- | ------------- | -------------
+------------ | ------------- | ------------- 
 **Box** | Create the box object from the bitstream. | BitStreamReader <b>stream</b> - File stream.
 **Box** | Create the box object from the box type and box size in bytes.<br />This constructor doesn't read data from the stream. | BoxType <b>boxtype</b> - Box type integer.<br />ulong <b>size</b> - Box size in bytes.
 **Box** | Create the box object from the bitstream and box type. | BitStreamReader <b>stream</b> - File stream.<br />BoxType <b>boxtype</b> - Box type integer.

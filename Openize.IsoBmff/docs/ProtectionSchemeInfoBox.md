@@ -5,7 +5,7 @@ The Protection Scheme Information Box contains all the information required both
 ## Constructors
 
 Name | Description | Parameters
------------- | ------------- | ------------- | -------------
+------------ | ------------- | -------------
 **ProtectionSchemeInfoBox** | NOT IMPLEMENTED. | BitStreamReader <b>stream</b> - File stream.
 
 [[Back to API_README]](API_README.md)
