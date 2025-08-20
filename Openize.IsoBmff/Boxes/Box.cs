@@ -155,6 +155,9 @@ namespace Openize.IsoBmff
                 case BoxType.colr:
                     box = new ColourInformationBox(stream, size);
                     break;
+                case BoxType.clli:
+                    box = new ContentLightLevelInfo(stream, size);
+                    break;
                 case BoxType.pixi:
                     box = new PixelInformationProperty(stream, size);
                     break;
