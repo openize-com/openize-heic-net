@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Openize.HEIC 
  * Copyright (c) 2024-2025 Openize Pty Ltd. 
  *
@@ -109,7 +109,7 @@ namespace Openize.Heic.Decoder
 
             while (bitstream.MoreData())
             {
-                var box = Box.ParceBox(bitstream);
+                var box = Box.ParseBox(bitstream);
 
                 if (box.type == BoxType.meta)
                     return new HeicImage(new HeicHeader(box as MetaBox), bitstream);
@@ -127,7 +127,7 @@ namespace Openize.Heic.Decoder
         {
             var bitstream = new BitStreamWithNalSupport(stream);
 
-            var box = Box.ParceBox(bitstream);
+            var box = Box.ParseBox(bitstream);
 
             if (!(box is FileTypeBox filetype))
                 return false;

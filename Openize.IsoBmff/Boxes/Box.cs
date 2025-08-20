@@ -100,7 +100,7 @@ namespace Openize.IsoBmff
         /// </summary>
         /// <param name="stream">File stream reader.</param>
         /// <returns>Parces box.</returns>
-        public static Box ParceBox(BitStreamReader stream)
+        public static Box ParseBox(BitStreamReader stream)
         {
             ulong startPosition = stream.GetBitPosition();
             ulong size = (ulong)stream.Read(32);

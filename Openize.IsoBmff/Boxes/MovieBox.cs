@@ -46,7 +46,7 @@ namespace Openize.IsoBmff
 
             while (stream.GetBitPosition() < startPos + size * 8)
             {
-                Box box = Box.ParceBox(stream);
+                Box box = Box.ParseBox(stream);
                 boxes.Add(box);
             }
 

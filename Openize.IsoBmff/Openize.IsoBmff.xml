@@ -89,7 +89,7 @@
             <param name="stream">File stream.</param>
             <param name="boxtype">Box type integer.</param>
         </member>
-        <member name="M:Openize.IsoBmff.Box.ParceBox(Openize.IsoBmff.IO.BitStreamReader)">
+        <member name="M:Openize.IsoBmff.Box.ParseBox(Openize.IsoBmff.IO.BitStreamReader)">
             <summary>
             Read next box from stream.
             </summary>
