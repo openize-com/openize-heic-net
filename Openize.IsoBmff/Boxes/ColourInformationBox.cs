@@ -52,6 +52,11 @@ namespace Openize.IsoBmff
         public new string ToString => $"{type} Color type: {UintToString(colour_type)}";
 
         /// <summary>
+        /// Colour type code as a string.
+        /// </summary>
+        public string ColourType => $"{UintToString(colour_type)}";
+
+        /// <summary>
         /// Create the box object from the bitstream and box size.
         /// </summary>
         /// <param name="stream">File stream.</param>

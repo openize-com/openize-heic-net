@@ -48,6 +48,17 @@ namespace Openize.Heic.Decoder
         /// MIME metadata.
         /// Resource Description Framework metadata.
         /// </summary>
-        mime = 0x6d696d65
+        mime = 0x6d696d65,
+
+        /// <summary>
+        /// Tone map.
+        /// HDR metadata.
+        /// </summary>
+        tmap = 0x746d6170,
+
+        /// <summary>
+        /// Uri.
+        /// </summary>
+        uri = 0x75726920
     }
 }

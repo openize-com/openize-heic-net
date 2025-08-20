@@ -109,5 +109,17 @@ namespace Openize.Heic.Decoder
 
             return Meta.iref.references.First(i => i.from_item_ID == id)?.type;
         }
+
+        /// <summary>
+        /// Returns the list of EntityToGroupBox's if they exist.
+        /// </summary>
+        /// <returns>List of EntityToGroupBox.</returns>
+        internal List<EntityToGroupBox> GetGroupsIfPresent()
+        {
+            if (Meta.grpl == null)
+                return null;
+
+            return Meta.grpl.boxes;
+        }
     }
 }

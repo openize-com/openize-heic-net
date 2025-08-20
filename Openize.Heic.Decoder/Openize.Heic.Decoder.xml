@@ -12,16 +12,65 @@
         <member name="F:Openize.Heic.Decoder.AuxiliaryReferenceType.Alpha">
             <summary>
             Transparency layer.
+            Defined as "urn:mpeg:hevc:2015:auxid:1".
             </summary>
         </member>
         <member name="F:Openize.Heic.Decoder.AuxiliaryReferenceType.DepthMap">
             <summary>
             Depth map layer.
+            Defined as "urn:mpeg:hevc:2015:auxid:2".
             </summary>
         </member>
-        <member name="F:Openize.Heic.Decoder.AuxiliaryReferenceType.Hdr">
+        <member name="F:Openize.Heic.Decoder.AuxiliaryReferenceType.HdrGainMap">
             <summary>
             High dynamic range layer.
+            Defined as "urn:com:apple:photo:2020:aux:hdrgainmap".
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.AuxiliaryReferenceType.PortraitEffectsMatte">
+            <summary>
+            Layer that represents the portrait effects matte of the image.
+            Defined as "urn:com:apple:photo:2018:aux:portraiteffectsmatte".
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.AuxiliaryReferenceType.SemanticHairMatte">
+            <summary>
+            Layer that represents the semantic segmentation hair matte of the image.
+            Defined as "urn:com:apple:photo:2019:aux:semantichairmatte".
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.AuxiliaryReferenceType.SemanticSkinMatte">
+            <summary>
+            Layer that represents the semantic segmentation skin matte of the image.
+            Defined as "urn:com:apple:photo:2019:aux:semanticskinmatte".
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.AuxiliaryReferenceType.SemanticTeethMatte">
+            <summary>
+            Layer that represents the semantic segmentation teeth matte of the image.
+            Defined as "urn:com:apple:photo:2019:aux:semanticteethmatte".
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.AuxiliaryReferenceType.SemanticGlassesMatte">
+            <summary>
+            Layer that represents the semantic segmentation glasses matte of the image.
+            Defined as "urn:com:apple:photo:2020:aux:semanticglassesmatte".
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.AuxiliaryReferenceType.SemanticSkyMatte">
+            <summary>
+            Layer that represents the semantic segmentation sky matte of the image.
+            Defined as "urn:com:apple:photo:2020:aux:semanticskymatte".
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.AuxiliaryReferenceType.LinearThumbnail">
+            <summary>
+            Defined as "tag:apple.com,2023:photo:aux:linearthumbnail".
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.AuxiliaryReferenceType.StyleDeltaMap">
+            <summary>
+            Defined as "tag:apple.com,2023:photo:aux:styledeltamap".
             </summary>
         </member>
         <member name="F:Openize.Heic.Decoder.AuxiliaryReferenceType.Undefined">
@@ -42,8 +91,31 @@
         </member>
         <member name="F:Openize.Heic.Decoder.HeicImageFrame.rawPixels">
             <summary>
-            Raw YUV pixel data.
+            Raw YUV pixel data, used when bit depth is less or equal 8.
             Multidimantional array: chroma or luma index, then two-dimentional array with x and y navigation.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.HeicImageFrame.rawPixelsHighColorRange">
+            <summary>
+            Raw YUV pixel data, used when bit depth is greater than 8.
+            Multidimantional array: chroma or luma index, then two-dimentional array with x and y navigation.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.HeicImageFrame.pasp">
+            <summary>
+            Contains the pixel aspect ratio information. 
+            This is an unused field that is created for debugging.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.HeicImageFrame.colr">
+            <summary>
+            Contains colour information.
+            This is an unused field that is created for debugging.
+            </summary>
+        </member>
+        <member name="P:Openize.Heic.Decoder.HeicImageFrame.ID">
+            <summary>
+            The unique identifier of the image frame.
             </summary>
         </member>
         <member name="P:Openize.Heic.Decoder.HeicImageFrame.ImageType">
@@ -121,14 +193,13 @@
             Specifies a vertical (axis = 1) or horizontal (axis = 2) axis for the mirroring operation.
             </summary>
         </member>
-        <member name="M:Openize.Heic.Decoder.HeicImageFrame.#ctor(Openize.Heic.Decoder.IO.BitStreamWithNalSupport,Openize.Heic.Decoder.HeicImage,System.UInt32,System.Collections.Generic.List{Openize.IsoBmff.Box})">
+        <member name="M:Openize.Heic.Decoder.HeicImageFrame.#ctor(Openize.Heic.Decoder.IO.BitStreamWithNalSupport,Openize.Heic.Decoder.HeicImage,System.UInt32)">
             <summary>
             Create Heic image frame object.
             </summary>
             <param name="stream">File stream.</param>
             <param name="parent">Parent image.</param>
             <param name="id">Frame identificator.</param>
-            <param name="properties">Frame properties described in container.</param>
         </member>
         <member name="M:Openize.Heic.Decoder.HeicImageFrame.GetByteArray(Openize.Heic.Decoder.PixelFormat,System.Drawing.Rectangle)">
             <summary>
@@ -162,6 +233,19 @@
             </summary>
             <param name="id">Layer identificator.</param>
             <param name="type">Layer type.</param>
+        </member>
+        <member name="M:Openize.Heic.Decoder.HeicImageFrame.LoadProperties(Openize.Heic.Decoder.IO.BitStreamWithNalSupport,System.Collections.Generic.List{Openize.IsoBmff.Box})">
+            <summary>
+            Load frame properties from Box and stream.
+            </summary>
+            <param name="stream">File stream.</param>
+            <param name="properties">Frame properties described in container.</param>
+        </member>
+        <member name="M:Openize.Heic.Decoder.HeicImageFrame.ToString">
+            <summary>
+            Returns a string representation of the object.
+            </summary>
+            <returns>String representation.</returns>
         </member>
         <member name="T:Openize.Heic.Decoder.ImageFrameType">
             <summary>
@@ -201,6 +285,17 @@
             <summary>
             MIME metadata.
             Resource Description Framework metadata.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ImageFrameType.tmap">
+            <summary>
+            Tone map.
+            HDR metadata.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ImageFrameType.uri">
+            <summary>
+            Uri.
             </summary>
         </member>
         <member name="T:Openize.Heic.Decoder.IO.BitStreamWithNalSupport">
@@ -389,6 +484,12 @@
             </summary>
             <param name="id">Identificator of the frame.</param>
             <returns>BoxType enum value.</returns>
+        </member>
+        <member name="M:Openize.Heic.Decoder.HeicHeader.GetGroupsIfPresent">
+            <summary>
+            Returns the list of EntityToGroupBox's if they exist.
+            </summary>
+            <returns>List of EntityToGroupBox.</returns>
         </member>
         <member name="T:Openize.Heic.Decoder.HeicImage">
             <summary>

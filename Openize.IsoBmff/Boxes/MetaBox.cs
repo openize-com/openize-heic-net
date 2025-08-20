@@ -60,6 +60,11 @@ namespace Openize.IsoBmff
         public ItemDataBox idat => TryGetBox(BoxType.idat) as ItemDataBox;
 
         /// <summary>
+        /// Item group box.
+        /// </summary>
+        public GroupsListBox grpl => TryGetBox(BoxType.grpl) as GroupsListBox;
+
+        /// <summary>
         /// Text summary of the box.
         /// </summary>
         public new string ToString => $"{type}";

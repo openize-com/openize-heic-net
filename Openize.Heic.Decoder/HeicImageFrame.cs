@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Openize.HEIC 
  * Copyright (c) 2024-2025 Openize Pty Ltd. 
  *
@@ -48,11 +48,31 @@ namespace Openize.Heic.Decoder
         /// Raw YUV pixel data.
         /// Multidimantional array: chroma or luma index, then two-dimentional array with x and y navigation.
         /// </summary>
-        internal ushort[][,] rawPixels;
+
+        #endregion
+
+        #region Private Fields
+
+        /// <summary>
+        /// Contains the pixel aspect ratio information. 
+        /// This is an unused field that is created for debugging.
+        /// </summary>
+        private PixelAspectRatioBox pasp = null;
+
+        /// <summary>
+        /// Contains colour information.
+        /// This is an unused field that is created for debugging.
+        /// </summary>
+        private ColourInformationBox colr = null;
 
         #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// The unique identifier of the image frame.
+        /// </summary>
+        public uint ID => id;
 
         /// <summary>
         /// Type of an image frame content.
@@ -248,7 +268,8 @@ namespace Openize.Heic.Decoder
         /// <returns>String</returns>
         public string GetTextData()
         {
-            if (ImageType != ImageFrameType.mime)
+            if (ImageType != ImageFrameType.mime &&
+                ImageType != ImageFrameType.uri)
                 return "";
 
             var location = parent.Header.Meta.iloc.items.First(i => i.item_ID == id);
@@ -275,6 +296,120 @@ namespace Openize.Heic.Decoder
                     break;
                 default:
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Load frame properties from Box and stream.
+        /// </summary>
+        /// <param name="stream">File stream.</param>
+        /// <param name="properties">Frame properties described in container.</param>
+        internal void LoadProperties(BitStreamWithNalSupport stream, List<Box> properties)
+        {
+            foreach (var item in properties)
+            {
+                switch ((uint)item.type)
+                {
+                    case 0x68766343: // hvcC
+                        HEVCConfigurationBox config = item as HEVCConfigurationBox;
+                        stream.CreateNewImageContext(id);
+                        stream.SetBytePosition((long)config.offset);
+                        hvcConfig = new HEVCDecoderConfigurationRecord(stream);
+                        config.record = hvcConfig; // gui
+                        break;
+                    case 0x69737065: // ispe
+                        var ispe = item as ImageSpatialExtentsProperty;
+                        ispeWidth = ispe.image_width;
+                        ispeHeight = ispe.image_height;
+                        break;
+                    case 0x70617370: // pasp
+                        pasp = item as PixelAspectRatioBox;
+                        break;
+                    case 0x636f6c72: // colr
+                        colr = item as ColourInformationBox;
+                        break;
+                    case 0x70697869: // pixi
+                        var pixi = item as PixelInformationProperty;
+                        NumberOfChannels = pixi.num_channels;
+                        BitsPerChannel = pixi.bits_per_channel;
+                        break;
+                    case 0x726c6f63: // rloc
+                        var rloc = item as RelativeLocationProperty;
+                        break;
+                    case 0x61757843: // auxC
+                        var auxC = item as AuxiliaryTypeProperty;
+
+                        AuxiliaryReferenceType = AuxiliaryReferenceType.Undefined;
+
+                        switch (auxC.aux_type)
+                        {
+                            case "urn:mpeg:hevc:2015:auxid:1\0":
+                                AuxiliaryReferenceType = AuxiliaryReferenceType.Alpha;
+                                break;
+                            case "urn:mpeg:hevc:2015:auxid:2\0":
+                                AuxiliaryReferenceType = AuxiliaryReferenceType.DepthMap;
+                                break;
+                            default:
+                                if (auxC.aux_type.Contains("apple") && auxC.aux_type.Contains(":aux:"))
+                                {
+
+                                    switch (auxC.aux_type.Substring(auxC.aux_type.IndexOf(":aux:") + 5))
+                                    {
+                                        case "portraiteffectsmatte\0":
+                                            AuxiliaryReferenceType = AuxiliaryReferenceType.PortraitEffectsMatte;
+                                            break;
+                                        case "semanticskinmatte\0":
+                                            AuxiliaryReferenceType = AuxiliaryReferenceType.SemanticSkinMatte;
+                                            break;
+                                        case "semantichairmatte\0":
+                                            AuxiliaryReferenceType = AuxiliaryReferenceType.SemanticHairMatte;
+                                            break;
+                                        case "semanticteethmatte\0":
+                                            AuxiliaryReferenceType = AuxiliaryReferenceType.SemanticTeethMatte;
+                                            break;
+                                        case "semanticglassesmatte\0":
+                                            AuxiliaryReferenceType = AuxiliaryReferenceType.SemanticGlassesMatte;
+                                            break;
+                                        case "semanticskymatte\0":
+                                            AuxiliaryReferenceType = AuxiliaryReferenceType.SemanticSkyMatte;
+                                            break;
+                                        case "hdrgainmap\0":
+                                            AuxiliaryReferenceType = AuxiliaryReferenceType.HdrGainMap;
+                                            break;
+                                        case "styledeltamap\0":
+                                            AuxiliaryReferenceType = AuxiliaryReferenceType.StyleDeltaMap;
+                                            break;
+                                        case "linearthumbnail\0":
+                                            AuxiliaryReferenceType = AuxiliaryReferenceType.LinearThumbnail;
+                                            break;
+                                    }
+                                }
+                                break;
+                        }
+
+                        var derived = parent.Header.GetDerivedList(id);
+                        foreach (var derivedId in derived)
+                        {
+                            parent.AllFrames[derivedId].AddLayerReference(id, AuxiliaryReferenceType);
+                        }
+                        break;
+                    case 0x636c6170: // clap
+                        var clap = item as CleanApertureBox;
+                        break;
+                    case 0x69726f74: // irot
+                        var irot = item as ImageRotation;
+                        imageRotationAngle = irot.angle;
+                        break;
+                    case 0x6c73656c: // lsel
+                        var lsel = item as LayerSelectorProperty;
+                        break;
+                    case 0x696d6972: // imir
+                        var imir = item as ImageMirror;
+                        imageMirrorAxis = (byte)(imir.axis + 1);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -591,80 +726,59 @@ namespace Openize.Heic.Decoder
             return value;
         }
 
-        private void LoadProperties(BitStreamWithNalSupport stream, List<Box> properties)
-        {
-            foreach (var item in properties)
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Returns a string representation of the object.
+        /// </summary>
+        /// <returns>String representation.</returns>
+        public override string ToString()
             {
-                switch ((uint)item.type)
+            string line = $"[{id},{ImageType}] ";
+
+            if (colr != null)
+                line += $"{colr.ColourType} ";
+
+            if (BitsPerChannel != null)
+                line += $"({String.Join(" ", BitsPerChannel)}) ";
+
+            if (ispeWidth > 0)
+                line += $"{ispeWidth}x{ispeHeight} ";
+
+            if (imageRotationAngle > 0)
+                line += $"{imageRotationAngle*90}° ";
+
+            if (AuxiliaryReferenceType != AuxiliaryReferenceType.Undefined)
+                line += $"{AuxiliaryReferenceType} ";
+
+
+
+
+            if (DerivativeType != null)
+            {
+                switch (DerivativeType)
                 {
-                    case 0x68766343: // hvcC
-                        HEVCConfigurationBox config = item as HEVCConfigurationBox;
-                        stream.CreateNewImageContext(id);
-                        stream.SetBytePosition((long)config.offset);
-                        hvcConfig = new HEVCDecoderConfigurationRecord(stream);
-                        config.record = hvcConfig; // gui
+                    case BoxType.dimg:
+                        line += $"Derived: ";
                         break;
-                    case 0x69737065: // ispe
-                        var ispe = item as ImageSpatialExtentsProperty;
-                        ispeWidth = ispe.image_width;
-                        ispeHeight = ispe.image_height;
+                    case BoxType.auxl:
+                        line += $"Auxiliary: ";
                         break;
-                    case 0x70617370: // pasp
-                        var pasp = item as PixelAspectRatioBox;
+                    case BoxType.cdsc:
+                        line += $"Content desc.: ";
                         break;
-                    case 0x636f6c72: // colr
-                        var colr = item as ColourInformationBox;
-                        break;
-                    case 0x70697869: // pixi
-                        var pixi = item as PixelInformationProperty;
-                        NumberOfChannels = pixi.num_channels;
-                        BitsPerChannel = pixi.bits_per_channel;
-                        break;
-                    case 0x726c6f63: // rloc
-                        var rloc = item as RelativeLocationProperty;
-                        break;
-                    case 0x61757843: // auxC
-                        var auxC = item as AuxiliaryTypeProperty;
-
-                        AuxiliaryReferenceType = AuxiliaryReferenceType.Undefined;
-
-                        switch (auxC.aux_type)
-                        {
-                            case "urn:mpeg:hevc:2015:auxid:1\0":
-                                AuxiliaryReferenceType = AuxiliaryReferenceType.Alpha;
-                                break;
-                            case "urn:mpeg:hevc:2015:auxid:2\0":
-                                AuxiliaryReferenceType = AuxiliaryReferenceType.DepthMap;
-                                break;
-                            case "urn:com:apple:photo:2020:aux:hdrgainmap\0":
-                                AuxiliaryReferenceType = AuxiliaryReferenceType.Hdr;
+                    case BoxType.thmb:
+                        line += $"Thumbnail: ";
                                 break;
                         }
 
                         var derived = parent.Header.GetDerivedList(id);
-                        foreach (var derivedId in derived)
-                        {
-                            parent.AllFrames[derivedId].AddLayerReference(id, AuxiliaryReferenceType);
+                line += $"[{String.Join(" ", derived)}]";
                         }
-                        break;
-                    case 0x636c6170: // clap
-                        var clap = item as CleanApertureBox;
-                        break;
-                    case 0x69726f74: // irot
-                        var irot = item as ImageRotation;
-                        imageRotationAngle = irot.angle;
-                        break;
-                    case 0x6c73656c: // lsel
-                        var lsel = item as LayerSelectorProperty;
-                        break;
-                    case 0x696d6972: // imir
-                        var imir = item as ImageMirror;
-                        imageMirrorAxis = (byte)(imir.axis + 1);
-                        break;
-                    default:
-                        break;
-                }
-            }
+
+            return line;
         }
 
         #endregion
