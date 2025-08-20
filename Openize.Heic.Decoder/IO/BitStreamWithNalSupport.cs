@@ -68,7 +68,14 @@ namespace Openize.Heic.Decoder.IO
         /// <param name="imageId">Image identificator.</param>
         public void DeleteImageContext(uint imageId)
         {
+            foreach (var picture in ContextDictionary[imageId].Pictures)
+            {
+                picture.Value.CleanMemory();
+            }
+
             ContextDictionary.Remove(imageId);
+
+            GC.Collect();
         }
 
         /// <summary>

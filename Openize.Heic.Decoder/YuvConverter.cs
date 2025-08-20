@@ -57,7 +57,7 @@ namespace Openize.Heic.Decoder
 
             byte[,,] pixels = new byte[width, height, 4];
 
-            if (picture.rawPixels == null)
+            if (picture.rawPixels == null && picture.rawPixelsHighColorRange == null)
                 return pixels;
 
             double Y, Cr, Cb, R, G, B;
@@ -72,11 +72,16 @@ namespace Openize.Heic.Decoder
             double BitKoefY = 256.0 / (1 << picture.hvcConfig.SPS.BitDepthY);
             double BitKoefC = 256.0 / (1 << picture.hvcConfig.SPS.BitDepthC);
 
+            bool highColorRange = picture.hvcConfig.SPS.BitDepthY > 8 || picture.hvcConfig.SPS.BitDepthC > 8;
+
             for (int row = 0; row < height; row++)
             {
                 for (int col = 0; col < width; col++)
                 {
-                    Y = picture.rawPixels[0][col, row];
+                    if (highColorRange)
+                        Y = picture.rawPixelsHighColorRange[0][col, row];
+                    else
+                        Y = picture.rawPixels[0][col, row];
 
                     if (!fullRangeFlag)
                         Y = tvRangeCoeffLuma * (Y - lumaOffset);
@@ -87,8 +92,16 @@ namespace Openize.Heic.Decoder
                     }
                     else
                     {
-                        Cb = picture.rawPixels[1][col / picture.hvcConfig.SPS.SubWidthC, row / picture.hvcConfig.SPS.SubHeightC] - chromaHalfRange;
-                        Cr = picture.rawPixels[2][col / picture.hvcConfig.SPS.SubWidthC, row / picture.hvcConfig.SPS.SubHeightC] - chromaHalfRange;
+                        if (highColorRange)
+                        {
+                            Cb = picture.rawPixelsHighColorRange[1][col / picture.hvcConfig.SPS.SubWidthC, row / picture.hvcConfig.SPS.SubHeightC] - chromaHalfRange;
+                            Cr = picture.rawPixelsHighColorRange[2][col / picture.hvcConfig.SPS.SubWidthC, row / picture.hvcConfig.SPS.SubHeightC] - chromaHalfRange;
+                        }
+                        else
+                        {
+                            Cb = picture.rawPixels[1][col / picture.hvcConfig.SPS.SubWidthC, row / picture.hvcConfig.SPS.SubHeightC] - chromaHalfRange;
+                            Cr = picture.rawPixels[2][col / picture.hvcConfig.SPS.SubWidthC, row / picture.hvcConfig.SPS.SubHeightC] - chromaHalfRange;
+                        }
 
                         if (!fullRangeFlag)
                         {

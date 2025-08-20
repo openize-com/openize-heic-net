@@ -45,9 +45,16 @@ namespace Openize.Heic.Decoder
         internal HEVCDecoderConfigurationRecord hvcConfig;
 
         /// <summary>
-        /// Raw YUV pixel data.
+        /// Raw YUV pixel data, used when bit depth is less or equal 8.
         /// Multidimantional array: chroma or luma index, then two-dimentional array with x and y navigation.
         /// </summary>
+        internal byte[][,] rawPixels;
+
+        /// <summary>
+        /// Raw YUV pixel data, used when bit depth is greater than 8.
+        /// Multidimantional array: chroma or luma index, then two-dimentional array with x and y navigation.
+        /// </summary>
+        internal ushort[][,] rawPixelsHighColorRange;
 
         #endregion
 
@@ -584,7 +591,7 @@ namespace Openize.Heic.Decoder
             return rgba;
         }
 
-        private ushort[][,] LoadHvcRawPixels()
+        private void LoadHvcRawPixels()
         {
             stream.CurrentImageId = id;
             stream.SetBytePosition(locationBox.base_offset + locationBox.extents[0].offset);
@@ -597,16 +604,19 @@ namespace Openize.Heic.Decoder
             }
 
             if (stream.Context.Pictures.ContainsKey(id))
+            {
                 rawPixels = stream.Context.Pictures[id].pixels;
+                rawPixelsHighColorRange = stream.Context.Pictures[id].pixels_high_color_range;
+            }
             else
             {
-                throw new EntryPointNotFoundException($"Image #{id} was not loaded [NalUnit not found].");
                 rawPixels = null;
+                rawPixelsHighColorRange = null;
+                throw new EntryPointNotFoundException($"Image #{id} was not loaded [NalUnit not found].");
             }
 
             cashed = true;
             stream.DeleteImageContext(id);
-            return rawPixels;
         }
 
         private byte[,,] GetByteArrayForGrid(byte[] databox)

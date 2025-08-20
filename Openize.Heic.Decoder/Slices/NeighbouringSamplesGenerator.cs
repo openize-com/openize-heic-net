@@ -155,14 +155,29 @@ namespace Openize.Heic.Decoder
 
                     if (availableN)
                     {
-                        if (nAvail == 0) 
-                            firstValue = picture.pixels[cIdx][x0 - 1, y0 + y];
-
-                        for (int i = 0; i < 4; i++)
+                        if (picture.sps.BitDepthY > 8 || picture.sps.BitDepthC > 8)
                         {
-                            available[-1, y - i] = true;
-                            samples[-1, y - i] = picture.pixels[cIdx][x0 - 1, y0 + y - i];
-                            nAvail++;
+                            if (nAvail == 0)
+                                firstValue = picture.pixels_high_color_range[cIdx][x0 - 1, y0 + y];
+
+                            for (int i = 0; i < 4; i++)
+                            {
+                                available[-1, y - i] = true;
+                                samples[-1, y - i] = picture.pixels_high_color_range[cIdx][x0 - 1, y0 + y - i];
+                                nAvail++;
+                            }
+                        }
+                        else
+                        {
+                            if (nAvail == 0)
+                                firstValue = picture.pixels[cIdx][x0 - 1, y0 + y];
+
+                            for (int i = 0; i < 4; i++)
+                            {
+                                available[-1, y - i] = true;
+                                samples[-1, y - i] = picture.pixels[cIdx][x0 - 1, y0 + y - i];
+                                nAvail++;
+                            }
                         }
                     }
                 }
@@ -184,12 +199,24 @@ namespace Openize.Heic.Decoder
 
                 if (availableN)
                 {
-                    if (nAvail == 0) 
-                        firstValue = picture.pixels[cIdx][x0 - 1, y0 - 1];
+                    if (picture.sps.BitDepthY > 8 || picture.sps.BitDepthC > 8)
+                    {
+                        if (nAvail == 0)
+                            firstValue = picture.pixels_high_color_range[cIdx][x0 - 1, y0 - 1];
 
-                    available[-1, -1] = true;
-                    samples[-1, -1] = picture.pixels[cIdx][x0 - 1, y0 - 1];
-                    nAvail++;
+                        available[-1, -1] = true;
+                        samples[-1, -1] = picture.pixels_high_color_range[cIdx][x0 - 1, y0 - 1];
+                        nAvail++;
+                    }
+                    else
+                    {
+                        if (nAvail == 0)
+                            firstValue = picture.pixels[cIdx][x0 - 1, y0 - 1];
+
+                        available[-1, -1] = true;
+                        samples[-1, -1] = picture.pixels[cIdx][x0 - 1, y0 - 1];
+                        nAvail++;
+                    }
                 }
             }
 
@@ -212,13 +239,27 @@ namespace Openize.Heic.Decoder
 
                     if (availableN)
                     {
-                        if (nAvail == 0) firstValue = picture.pixels[cIdx][x0 + x, y0 - 1];
-
-                        for (int i = 0; i < 4; i++)
+                        if (picture.sps.BitDepthY > 8 || picture.sps.BitDepthC > 8)
                         {
-                            available[x + i, -1] = true;
-                            samples[x + i, -1] = picture.pixels[cIdx][x0 + x + i, y0 - 1];
-                            nAvail++;
+                            if (nAvail == 0) firstValue = picture.pixels_high_color_range[cIdx][x0 + x, y0 - 1];
+
+                            for (int i = 0; i < 4; i++)
+                            {
+                                available[x + i, -1] = true;
+                                samples[x + i, -1] = picture.pixels_high_color_range[cIdx][x0 + x + i, y0 - 1];
+                                nAvail++;
+                            }
+                        }
+                        else
+                        {
+                            if (nAvail == 0) firstValue = picture.pixels[cIdx][x0 + x, y0 - 1];
+
+                            for (int i = 0; i < 4; i++)
+                            {
+                                available[x + i, -1] = true;
+                                samples[x + i, -1] = picture.pixels[cIdx][x0 + x + i, y0 - 1];
+                                nAvail++;
+                            }
                         }
                     }
                 }
