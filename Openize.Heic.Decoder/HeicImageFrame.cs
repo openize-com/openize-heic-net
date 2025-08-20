@@ -175,8 +175,7 @@ namespace Openize.Heic.Decoder
         /// <param name="stream">File stream.</param>
         /// <param name="parent">Parent image.</param>
         /// <param name="id">Frame identificator.</param>
-        /// <param name="properties">Frame properties described in container.</param>
-        internal HeicImageFrame(BitStreamWithNalSupport stream, HeicImage parent, uint id, List<Box> properties)
+        internal HeicImageFrame(BitStreamWithNalSupport stream, HeicImage parent, uint id)
         {
             DerivativeType = parent.Header.GetDerivedType(id);
             informationBox = parent.Header.GetInfoBoxById(id);
@@ -190,8 +189,6 @@ namespace Openize.Heic.Decoder
             this.stream = stream;
             this.parent = parent;
             cashed = false;
-
-            LoadProperties(stream, properties);
         }
 
         #endregion
@@ -745,7 +742,7 @@ namespace Openize.Heic.Decoder
         /// </summary>
         /// <returns>String representation.</returns>
         public override string ToString()
-            {
+        {
             string line = $"[{id},{ImageType}] ";
 
             if (colr != null)
@@ -781,12 +778,12 @@ namespace Openize.Heic.Decoder
                         break;
                     case BoxType.thmb:
                         line += $"Thumbnail: ";
-                                break;
-                        }
+                        break;
+                }
 
-                        var derived = parent.Header.GetDerivedList(id);
+                var derived = parent.Header.GetDerivedList(id);
                 line += $"[{String.Join(" ", derived)}]";
-                        }
+            }
 
             return line;
         }
