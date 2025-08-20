@@ -16,10 +16,15 @@ namespace Openize.Heic.Decoder
 
         private static bool _initialised = false;
 
+        private static object _locker = new object();
+
         internal static void Initialize()
         {
-            if (_initialised) return;
-            _initialised = true;
+            lock (_locker)
+            {
+                if (_initialised) return;
+                _initialised = true;
+            }
 
             ScanOrderInitialize();
         }
