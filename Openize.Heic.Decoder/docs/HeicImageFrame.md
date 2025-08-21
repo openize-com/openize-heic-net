@@ -7,6 +7,7 @@ Contains hevc coded data or meta data.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**ID** | **uint** | The unique identifier of the image frame. | 
 **ImageType** | **ImageFrameType** | Type of an image frame content. | 
 **Width** | **uint** | Width of the image frame in pixels. | 
 **Height** | **uint** | Height of the image frame in pixels. | 
@@ -25,13 +26,15 @@ Name | Type | Description | Parameters
 ------------ | ------------- | ------------- | -------------
 **GetByteArray** | **byte[]** | Get pixel data in the format of byte array.<br />Each three or four bytes (the count depends on the pixel format) refer to one pixel left to right top to bottom line by line.<br />Returns null if frame does not contain image data. | PixelFormat <b>pixelFormat</b> - Pixel format that defines the order of colors and the presence of alpha byte.<br />Rectangle <b>boundsRectangle</b> - Bounds of the requested area.
 **GetInt32Array** | **int[]** | Get pixel data in the format of integer array.<br />Each int value refers to one pixel left to right top to bottom line by line.<br />Returns null if frame does not contain image data. | PixelFormat <b>pixelFormat</b> - Pixel format that defines the order of colors.<br />Rectangle <b>boundsRectangle</b> - Bounds of the requested area.
-**GetTextData** | **string** | Get frame text data.<br />Exists only for mime frame types. | 
+**GetTextData** | **string** | Get frame text data.<br />Exists only for mime frame types. |  | 
+**ToString** | **string** | Returns a string representation of the object. |  | 
 
 ## Fields
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **hvcConfig** | **HEVCDecoderConfigurationRecord** | Hevc decoder configuration information from Isobmff container. | 
-**rawPixels** | **ushort[][,]** | Raw YUV pixel data. <br />Multidimantional array: chroma or luma index, then two-dimentional array with x and y navigation. | 
+**rawPixels** | **byte[][,]** | Raw YUV pixel data, used when bit depth is less or equal 8. <br />Multidimantional array: chroma or luma index, then two-dimentional array with x and y navigation. | 
+**rawPixelsHighColorRange** | **ushort[][,]** | Raw YUV pixel data, used when bit depth is greater than 8. <br />Multidimantional array: chroma or luma index, then two-dimentional array with x and y navigation. | 
 
 [[Back to API_README]](API_README.md)

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Openize.IsoBmff
  * Copyright (c) 2024-2025 Openize Pty Ltd. 
  *
@@ -60,6 +60,11 @@ namespace Openize.IsoBmff
         public ItemDataBox idat => TryGetBox(BoxType.idat) as ItemDataBox;
 
         /// <summary>
+        /// Item group box.
+        /// </summary>
+        public GroupsListBox grpl => TryGetBox(BoxType.grpl) as GroupsListBox;
+
+        /// <summary>
         /// Text summary of the box.
         /// </summary>
         public new string ToString => $"{type}";
@@ -83,7 +88,7 @@ namespace Openize.IsoBmff
 
             while(stream.GetBitPosition() < startPos + size * 8)
             {
-                Box box = Box.ParceBox(stream);
+                Box box = Box.ParseBox(stream);
                 boxes.Add(box.type, box);
             }
 

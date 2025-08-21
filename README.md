@@ -14,11 +14,12 @@ Openize.HEIC has support for:
 * multiple images in a file;
 * alpha channels, depth maps, thumbnails, auxiliary images;
 * correct color transform according to embedded color profiles;
-* image transformations (crop, mirror, rotate), overlay images.
+* image transformations (crop, mirror, rotate), overlay images;
+* reading XML metadata.
 
 Openize.HEIC doesn't support:
 * HDR images;
-* reading EXIF and XMP metadata;
+* reading EXIF metadata;
 * color transform according to EXIF contained color profiles;
 * HEIC coded animations that use P and B‑slices;
 * deblocking filter.
@@ -138,9 +139,12 @@ Name | Type | Description | Parameters | Notes
 #### Properties
 Name | Type | Description
 ------------ | ------------- | ------------- 
+**Header** | **HeicHeader** | Heic image header. Grants convinient access to IsoBmff container meta data.
 **Frames** | **Dictionary<uint, HeicImageFrame>** | Dictionary of public Heic image frames with access by identifier. 
 **AllFrames** | **Dictionary<uint, HeicImageFrame>** | Dictionary of all Heic image frames with access by identifier. 
 **DefaultFrame** | **HeicImageFrame** | Returns the default image frame, which is specified in meta data. 
+**Width** | **uint** | Width of the default image frame in pixels.
+**Height** | **uint** | Height of the default image frame in pixels.
 
 ### HeicImageFrame
 
@@ -150,10 +154,12 @@ Name | Type | Description | Parameters
 **GetByteArray** | **byte[]** | Get pixel data in the format of byte array.<br />Each three or four bytes (the count depends on the pixel format) refer to one pixel left to right top to bottom line by line.<br />Returns null if frame does not contain image data. | `PixelFormat pixelFormat` - Pixel format that defines the order of colors and the presence of alpha byte.<br />`Rectangle boundsRectangle` - Bounds of the requested area.
 **GetInt32Array** | **int[]** | Get pixel data in the format of integer array.<br />Each int value refers to one pixel left to right top to bottom line by line.<br />Returns null if frame does not contain image data. | `PixelFormat pixelFormat` - Pixel format that defines the order of colors.<br />`Rectangle boundsRectangle` - Bounds of the requested area.
 **GetTextData** | **string** | Get frame text data.<br />Exists only for mime frame types. | 
+**ToString** | **string** | Returns a string representation of the object. | 
 
 ### Properties
 Name | Type | Description
 ------------ | ------------- | ------------- 
+**ID** | **uint** | The unique identifier of the image frame.
 **ImageType** | **ImageFrameType** | Type of an image frame content.
 **Width** | **uint** | Width of the image frame in pixels. 
 **Height** | **uint** | Height of the image frame in pixels.

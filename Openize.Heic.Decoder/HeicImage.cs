@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Openize.HEIC 
  * Copyright (c) 2024-2025 Openize Pty Ltd. 
  *
@@ -63,7 +63,44 @@ namespace Openize.Heic.Decoder
         /// <summary>
         /// Dictionary of public Heic image frames with access by identifier.
         /// </summary>
-        public Dictionary<uint, HeicImageFrame> Frames => _frames.Where(f => !f.Value.IsHidden).ToDictionary(mc => mc.Key, mc => mc.Value);
+        public Dictionary<uint, HeicImageFrame> Frames
+        {
+            get
+            {
+                var frames = _frames
+                    .Where(f => 
+                        (!f.Value.IsHidden) && 
+                        (f.Value.DerivativeType != BoxType.thmb) &&
+                        (f.Value.ImageType != ImageFrameType.tmap))
+                    .ToDictionary(mc => mc.Key, mc => mc.Value);
+
+                var groups = this.Header.GetGroupsIfPresent();
+                if (groups == null)
+                    return frames;
+
+                foreach (var grp in groups)
+                {
+                    if (grp.type == BoxType.altr)
+                    {
+                        var entities = grp.entities;
+                        bool selected = false;
+                        
+                        for (int i = 0; i < entities.Length; i++)
+                        {
+                            if (frames.ContainsKey(entities[i]))
+                            {
+                                if (!selected)
+                                    selected = true;
+                                else
+                                    frames.Remove(entities[i]);
+                            }
+                        }
+                    }
+                }
+
+                return frames;
+            }
+        }
 
         /// <summary>
         /// Dictionary of all Heic image frames with access by identifier.
@@ -109,7 +146,7 @@ namespace Openize.Heic.Decoder
 
             while (bitstream.MoreData())
             {
-                var box = Box.ParceBox(bitstream);
+                var box = Box.ParseBox(bitstream);
 
                 if (box.type == BoxType.meta)
                     return new HeicImage(new HeicHeader(box as MetaBox), bitstream);
@@ -127,7 +164,7 @@ namespace Openize.Heic.Decoder
         {
             var bitstream = new BitStreamWithNalSupport(stream);
 
-            var box = Box.ParceBox(bitstream);
+            var box = Box.ParseBox(bitstream);
 
             if (!(box is FileTypeBox filetype))
                 return false;
@@ -173,13 +210,14 @@ namespace Openize.Heic.Decoder
             foreach (var item in Header.Meta.iloc.items)
             {
                 uint id = item.item_ID;
-
-                if (rawProperties.ContainsKey(id))
-                    _frames.Add(id, new HeicImageFrame(stream, this, id, rawProperties[id]));
-                else
-                    _frames.Add(id, new HeicImageFrame(stream, this, id, new List<Box>()));
+                _frames.Add(id, new HeicImageFrame(stream, this, id));
             }
 
+            foreach (var frame in _frames)
+            {
+                if (rawProperties.ContainsKey(frame.Value.ID))
+                    frame.Value.LoadProperties(stream, rawProperties[frame.Value.ID]);
+            }
         }
 
         #endregion

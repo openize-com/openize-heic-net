@@ -100,7 +100,7 @@ namespace Openize.IsoBmff
         /// </summary>
         /// <param name="stream">File stream reader.</param>
         /// <returns>Parces box.</returns>
-        public static Box ParceBox(BitStreamReader stream)
+        public static Box ParseBox(BitStreamReader stream)
         {
             ulong startPosition = stream.GetBitPosition();
             ulong size = (ulong)stream.Read(32);
@@ -154,6 +154,9 @@ namespace Openize.IsoBmff
                     break;
                 case BoxType.colr:
                     box = new ColourInformationBox(stream, size);
+                    break;
+                case BoxType.clli:
+                    box = new ContentLightLevelInfo(stream, size);
                     break;
                 case BoxType.pixi:
                     box = new PixelInformationProperty(stream, size);

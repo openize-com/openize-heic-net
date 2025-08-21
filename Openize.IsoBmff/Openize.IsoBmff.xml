@@ -89,7 +89,7 @@
             <param name="stream">File stream.</param>
             <param name="boxtype">Box type integer.</param>
         </member>
-        <member name="M:Openize.IsoBmff.Box.ParceBox(Openize.IsoBmff.IO.BitStreamReader)">
+        <member name="M:Openize.IsoBmff.Box.ParseBox(Openize.IsoBmff.IO.BitStreamReader)">
             <summary>
             Read next box from stream.
             </summary>
@@ -254,6 +254,11 @@
         <member name="F:Openize.IsoBmff.BoxType.colr">
             <summary>
             Colour information item property. Located in the 'ipco' box.
+            </summary>
+        </member>
+        <member name="F:Openize.IsoBmff.BoxType.clli">
+            <summary>
+            Content light level info. Located in the 'clli' box.
             </summary>
         </member>
         <member name="F:Openize.IsoBmff.BoxType.pixi">
@@ -450,7 +455,39 @@
             Text summary of the box.
             </summary>
         </member>
+        <member name="P:Openize.IsoBmff.ColourInformationBox.ColourType">
+            <summary>
+            Colour type code as a string.
+            </summary>
+        </member>
         <member name="M:Openize.IsoBmff.ColourInformationBox.#ctor(Openize.IsoBmff.IO.BitStreamReader,System.UInt64)">
+            <summary>
+            Create the box object from the bitstream and box size.
+            </summary>
+            <param name="stream">File stream.</param>
+            <param name="size">Box size in bytes.</param>
+        </member>
+        <member name="T:Openize.IsoBmff.ContentLightLevelInfo">
+            <summary>
+            Contains light level information about the image.
+            </summary>
+        </member>
+        <member name="F:Openize.IsoBmff.ContentLightLevelInfo.max_content_light_level">
+            <summary>
+            Indicates the max picture ligth level.
+            </summary>
+        </member>
+        <member name="F:Openize.IsoBmff.ContentLightLevelInfo.max_pic_average_light_level">
+            <summary>
+            Indicates the picture average ligth level.
+            </summary>
+        </member>
+        <member name="P:Openize.IsoBmff.ContentLightLevelInfo.ToString">
+            <summary>
+            Text summary of the box.
+            </summary>
+        </member>
+        <member name="M:Openize.IsoBmff.ContentLightLevelInfo.#ctor(Openize.IsoBmff.IO.BitStreamReader,System.UInt64)">
             <summary>
             Create the box object from the bitstream and box size.
             </summary>
@@ -1334,6 +1371,11 @@
         <member name="P:Openize.IsoBmff.MetaBox.idat">
             <summary>
             Item data box.
+            </summary>
+        </member>
+        <member name="P:Openize.IsoBmff.MetaBox.grpl">
+            <summary>
+            Item group box.
             </summary>
         </member>
         <member name="P:Openize.IsoBmff.MetaBox.ToString">

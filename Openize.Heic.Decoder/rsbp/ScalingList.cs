@@ -61,11 +61,15 @@ namespace Openize.Heic.Decoder
             41,41,54,54,54,71,71,91
         };
 
+        private static object _locker = new object();
+
         internal static void Initiate(seq_parameter_set_rbsp sps)
         {
-            if (ScalingFactor != null) return;
-
-            ScalingFactor = new int[4][][,];
+            lock (_locker)
+            {
+                if (ScalingFactor != null) return;
+                ScalingFactor = new int[4][][,];
+            }
 
             for (int i = 0; i < 4; i++)
                 ScalingFactor[i] = new int[6][,];

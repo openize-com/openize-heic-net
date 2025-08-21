@@ -23,7 +23,7 @@ namespace Openize.IsoBmff
         /// <summary>
         /// List of nested boxes.
         /// </summary>
-        private List<Box> boxes;
+        public List<EntityToGroupBox> boxes;
 
         /// <summary>
         /// Text summary of the box.
@@ -33,7 +33,7 @@ namespace Openize.IsoBmff
         /// <summary>
         /// Observable collection of the nested boxes.
         /// </summary>
-        public ObservableCollection<Box> Children { get; set; }
+        public ObservableCollection<EntityToGroupBox> Children { get; set; }
 
         /// <summary>
         /// Create the box object from the bitstream, box size and start position.
@@ -43,14 +43,14 @@ namespace Openize.IsoBmff
         /// <param name="startPos">Start position in bits.</param>
         public GroupsListBox(BitStreamReader stream, ulong size, ulong startPos) : base(BoxType.grpl, size)
         {
-            boxes = new List<Box>();
+            boxes = new List<EntityToGroupBox>();
 
             while (stream.GetBitPosition() < startPos + size * 8)
             {
                 boxes.Add(new EntityToGroupBox(stream));
             }
 
-            Children = new ObservableCollection<Box>(boxes);
+            Children = new ObservableCollection<EntityToGroupBox>(boxes);
         }
     }
 }

@@ -157,6 +157,11 @@ namespace Openize.IsoBmff
         colr = 0x636f6c72,
 
         /// <summary>
+        /// Content light level info. Located in the 'clli' box.
+        /// </summary>
+        clli = 0x636c6c69,
+
+        /// <summary>
         /// Bit depth item property. Located in the 'ipco' box.
         /// </summary>
         pixi = 0x70697869,

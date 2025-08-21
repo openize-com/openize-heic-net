@@ -5,6 +5,7 @@
  - [Openize.IsoBmff.Box](Box.md)
  - [Openize.IsoBmff.CleanApertureBox](CleanApertureBox.md)
  - [Openize.IsoBmff.ColourInformationBox](ColourInformationBox.md)
+ - [Openize.IsoBmff.ContentLightLevelInfo](ContentLightLevelInfo.md)
  - [Openize.IsoBmff.DataEntryUrlBox](DataEntryUrlBox.md)
  - [Openize.IsoBmff.DataInformationBox](DataInformationBox.md)
  - [Openize.IsoBmff.DataReferenceBox](DataReferenceBox.md)

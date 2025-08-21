@@ -51,6 +51,7 @@
     <Compile Include="Boxes\BoxType.cs" />
     <Compile Include="Boxes\CleanApertureBox.cs" />
     <Compile Include="Boxes\ColourInformationBox.cs" />
+    <Compile Include="Boxes\ContentLightLevelInfo.cs" />
     <Compile Include="Boxes\DataEntryUrlBox.cs" />
     <Compile Include="Boxes\DataInformationBox.cs" />
     <Compile Include="Boxes\DataReferenceBox.cs" />

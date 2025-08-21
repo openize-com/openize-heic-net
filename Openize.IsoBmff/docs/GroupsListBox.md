@@ -7,18 +7,18 @@ An entity group is a grouping of items, which may also group tracks. The entitie
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ToString** | **string** | Text summary of the box. | 
-**Children** | **ObservableCollection<Box>** | Observable collection of the nested boxes. | 
+**Children** | **ObservableCollection<GroupsListBox>** | Observable collection of the nested boxes. | 
 
 ## Fields
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**boxes** | **List<Box>** | List of nested boxes. | 
+**boxes** | **List<GroupsListBox>** | List of nested boxes. | 
 
 ## Constructors
 
 Name | Description | Parameters
------------- | ------------- | ------------- | -------------
+------------ | ------------- | ------------- 
 **GroupsListBox** | Create the box object from the bitstream and box size. | BitStreamReader <b>stream</b> - File stream.<br />ulong <b>size</b> - Box size in bytes.
 
 [[Back to API_README]](API_README.md)

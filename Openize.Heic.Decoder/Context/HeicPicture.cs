@@ -72,7 +72,8 @@ namespace Openize.Heic.Decoder
         public int[] pcm_sample_luma;
         public int[] pcm_sample_chroma;
 
-        public ushort[][,] pixels;
+        public byte[][,] pixels;
+        public ushort[][,] pixels_high_color_range;
 
         public HeicPicture(slice_segment_header slice_header, NalHeader nal_header)
         {
@@ -99,8 +100,12 @@ namespace Openize.Heic.Decoder
             sao_offset_abs = new int[chroma_count][,][];
             sao_offset_sign = new int[chroma_count][,][];
             sao_band_position = new int[chroma_count][,];
-            pixels = new ushort[chroma_count][,];
             TransCoeffLevel = new int[chroma_count][,];
+
+            if (sps.BitDepthY > 8 || sps.BitDepthC > 8)
+                pixels_high_color_range = new ushort[chroma_count][,];
+            else
+                pixels = new byte[chroma_count][,];
 
             for (int i = 0; i < chroma_count; i++)
             {
@@ -112,8 +117,12 @@ namespace Openize.Heic.Decoder
                 sao_offset_sign[i] = new int[sps.PicWidthInCtbsY, sps.PicHeightInCtbsY][];
                 sao_band_position[i] = new int[sps.PicWidthInCtbsY, sps.PicHeightInCtbsY];
 
-                pixels[i] = new ushort[widthMax, heightMax];
                 TransCoeffLevel[i] = new int[widthMax, heightMax];
+
+                if (sps.BitDepthY > 8 || sps.BitDepthC > 8)
+                    pixels_high_color_range[i] = new ushort[widthMax, heightMax];
+                else
+                    pixels[i] = new byte[widthMax, heightMax];
             }
 
             CtDepth = new int[widthMax, heightMax];
@@ -144,6 +153,42 @@ namespace Openize.Heic.Decoder
             //transform_skip_flag = new bool[xMax, yMax][];
             explicit_rdpcm_flag = new bool[widthMax, heightMax][];
             explicit_rdpcm_dir_flag = new bool[widthMax, heightMax][];
+        }
+
+        public void CleanMemory()
+        {
+            SaoTypeIdx = null;
+            SaoOffsetVal = null;
+            SaoEoClass = null;
+            ResScaleVal = null;
+            sao_offset_abs = null;
+            sao_offset_sign = null;
+            sao_band_position = null;
+            SliceAddrRs = null;
+            SliceHeaderIndex = null;
+            IntraPredModeY = null;
+            IntraPredModeC = null;
+            TransCoeffLevel = null;
+            CtDepth = null;
+            CuPredMode = null;
+            QpY = null;
+            Log2CbSize = null;
+            merge_flag = null;
+            cu_skip_flag = null;
+            palette_mode_flag = null;
+            pcm_flag = null;
+            prev_intra_luma_pred_flag = null;
+            mpm_idx = null;
+            rem_intra_luma_pred_mode = null;
+            intra_chroma_pred_mode = null;
+            tu_residual_act_flag = null;
+            cbf_cb = null;
+            cbf_cr = null;
+            cbf_luma = null;
+            explicit_rdpcm_flag = null;
+            explicit_rdpcm_dir_flag = null;
+            pcm_sample_luma = null;
+            pcm_sample_chroma = null;
         }
 
         // 6.4.1 Derivation process for z-scan order block availability

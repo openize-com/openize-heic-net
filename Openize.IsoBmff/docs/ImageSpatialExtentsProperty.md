@@ -19,7 +19,7 @@ Name | Type | Description | Notes
 ## Constructors
 
 Name | Description | Parameters
------------- | ------------- | ------------- | -------------
+------------ | ------------- | -------------
 **ImageSpatialExtentsProperty** | Create the box object from the bitstream and box size. | BitStreamReader <b>stream</b> - File stream.<br />ulong <b>size</b> - Box size in bytes.
 
 [[Back to API_README]](API_README.md)

@@ -24,7 +24,7 @@ Name | Type | Description | Notes
 ## Constructors
 
 Name | Description | Parameters
------------- | ------------- | ------------- | -------------
+------------ | ------------- | -------------
 **ItemPropertyContainerBox** | Create the box object from the bitstream and start position. | BitStreamReader <b>stream</b> - File stream.<br />ulong <b>startPos</b> - Start position in bits.
 
 [[Back to API_README]](API_README.md)

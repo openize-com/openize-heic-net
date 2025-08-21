@@ -19,7 +19,7 @@ Name | Type | Description | Notes
 ## Constructors
 
 Name | Description | Parameters
------------- | ------------- | ------------- | -------------
+------------ | ------------- | -------------
 **ItemPropertyAssociation** | Create the box object from the bitstream. | BitStreamReader <b>stream</b> - File stream.
 
 [[Back to API_README]](API_README.md)

@@ -218,10 +218,20 @@ namespace Openize.Heic.Decoder
 
             int bitDepth = (cIdx == 0) ? picture.sps.BitDepthY : picture.sps.BitDepthC;
 
-            for (int y = 0; y < nTbS; y++)
-                for (int x = 0; x < nTbS; x++)
-                    picture.pixels[cIdx][x0 + x, y0 + y] = 
-                        (ushort)MathExtra.ClipBitDepth(samples[x, y] + transSamples[x, y], bitDepth);
+            if (picture.sps.BitDepthY > 8 || picture.sps.BitDepthC > 8)
+            {
+                for (int y = 0; y < nTbS; y++)
+                    for (int x = 0; x < nTbS; x++)
+                        picture.pixels_high_color_range[cIdx][x0 + x, y0 + y] =
+                            (ushort)MathExtra.ClipBitDepth(samples[x, y] + transSamples[x, y], bitDepth);
+            }
+            else
+            {
+                for (int y = 0; y < nTbS; y++)
+                    for (int x = 0; x < nTbS; x++)
+                        picture.pixels[cIdx][x0 + x, y0 + y] =
+                            (byte)MathExtra.ClipBitDepth(samples[x, y] + transSamples[x, y], bitDepth);
+            }
         }
 
         // 8.4.4.2.1 General intra sample prediction

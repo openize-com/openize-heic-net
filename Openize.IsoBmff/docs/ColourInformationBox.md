@@ -8,6 +8,7 @@ If colour information is supplied in both this box, and also in the video bitstr
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ToString** | **string** | Text summary of the box. | 
+**ColourType** | **string** | Colour type code as a string. | 
 
 ## Fields
 
@@ -22,7 +23,7 @@ Name | Type | Description | Notes
 ## Constructors
 
 Name | Description | Parameters
------------- | ------------- | ------------- | -------------
+------------ | ------------- | ------------- 
 **ColourInformationBox** | Create the box object from the bitstream and box size. | BitStreamReader <b>stream</b> - File stream.<br />ulong <b>size</b> - Box size in bytes.
 
 [[Back to API_README]](API_README.md)

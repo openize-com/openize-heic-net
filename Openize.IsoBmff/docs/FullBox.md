@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Constructors
 
 Name | Description | Parameters
------------- | ------------- | ------------- | -------------
+------------ | ------------- | ------------- |
 **FullBox** | Create the box object from the bitstream. | BitStreamReader <b>stream</b> - File stream.
 **FullBox** | Create the box object from the bitstream and box type. | BitStreamReader <b>stream</b> - File stream.<br />BoxType <b>boxtype</b> - Box type integer.
 **FullBox** | Create the box object from the bitstream, box type and size. | BitStreamReader <b>stream</b> - File stream.<br />BoxType <b>boxtype</b> - Box type integer.<br />ulong <b>size</b> - Box size in bytes.
