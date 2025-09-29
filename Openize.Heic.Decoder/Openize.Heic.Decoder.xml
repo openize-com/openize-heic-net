@@ -78,6 +78,547 @@
             Undefined layer.
             </summary>
         </member>
+        <member name="T:Openize.Heic.Decoder.ExifData">
+            <summary>
+            Exchangeable image file format class.
+            Grants access to raw exif-data and to data by specific tags.
+            </summary>
+        </member>
+        <member name="P:Openize.Heic.Decoder.ExifData.DirectoriesList">
+            <summary>
+            List of exif directories in frame.
+            </summary>
+        </member>
+        <member name="P:Openize.Heic.Decoder.ExifData.TagList">
+            <summary>
+            List of all tags that present in directories.
+            </summary>
+        </member>
+        <member name="P:Openize.Heic.Decoder.ExifData.RawBytes">
+            <summary>
+            Raw exif data in bytes.
+            </summary>
+        </member>
+        <member name="M:Openize.Heic.Decoder.ExifData.#ctor(Openize.Heic.Decoder.IO.BitStreamWithNalSupport,Openize.Heic.Decoder.HeicImage,Openize.Heic.Decoder.HeicImageFrame)">
+            <summary>
+            Create exif-data object.
+            </summary>
+            <param name="stream">File stream.</param>
+            <param name="image">Parent heic image.</param>
+            <param name="exifFrame">Exif heic frame.</param>
+            <exception cref="T:System.DataMisalignedException"></exception>
+        </member>
+        <member name="M:Openize.Heic.Decoder.ExifData.GetExifString``1(System.Int32)">
+            <summary>
+            Returns the string value for the particular tag type and the directorty specified as a class.
+            </summary>
+            <typeparam name="T">The directory class</typeparam>
+            <param name="tagType">The tag type identifier</param>
+            <returns></returns>
+        </member>
+        <member name="M:Openize.Heic.Decoder.ExifData.GetExifRawData``1(System.Int32)">
+            <summary>
+            Returns the raw value for the particular tag type and the directorty specified as a class.
+            </summary>
+            <typeparam name="T">The directory class</typeparam>
+            <param name="tagType">The tag type identifier</param>
+            <returns></returns>
+        </member>
+        <member name="M:Openize.Heic.Decoder.ExifData.GetExifString(Openize.Heic.Decoder.ExifDirectoryType,System.Int32)">
+            <summary>
+            Returns the string value for the particular tag type and the directorty specified as a parameter.
+            </summary>
+            <param name="dirType">The directory type identifier</param>
+            <param name="tagType">The tag type identifier</param>
+            <returns></returns>
+        </member>
+        <member name="M:Openize.Heic.Decoder.ExifData.GetExifRawData(Openize.Heic.Decoder.ExifDirectoryType,System.Int32)">
+            <summary>
+            Returns the raw value for the particular tag type and the directorty specified as a parameter.
+            </summary>
+            <param name="dirType">The directory type identifier</param>
+            <param name="tagType">The tag type identifier</param>
+            <returns></returns>
+        </member>
+        <member name="M:Openize.Heic.Decoder.ExifData.GetExifDirectory(Openize.Heic.Decoder.ExifDirectoryType)">
+            <summary>
+            Gets the first directory of the specified type from the exif data.
+            </summary>
+            <param name="dirType">The directory type identifier</param>
+            <returns>MetadataExtractor.Directory object.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thows an exception for unknown directory types.</exception>
+        </member>
+        <member name="T:Openize.Heic.Decoder.ExifDirectoryType">
+            <summary>
+            Type of an exif directory.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.ExifIfd0Directory">
+            <summary>
+            IFD0 directory.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.ExifImageDirectory">
+            <summary>
+            One of several Exif directories.
+            Holds information about image IFD's in a chain after the first.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.ExifInteropDirectory">
+            <summary>
+            Exif interoperability tags directory.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.ExifSubIfdDirectory">
+            <summary>
+            SubIFD directory.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.ExifThumbnailDirectory">
+            <summary>
+            IFD1 directory. Holds information about an embedded thumbnail image.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.GpsDirectory">
+            <summary>
+            GPS Exif tags directory.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.AdobeJpegDirectory">
+            <summary>
+            Directory for image encoding information for DCT filters, as stored by Adobe.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.AppleMakernoteDirectory">
+            <summary>
+            Directory for tags specific to Apple cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.AviDirectory">
+            <summary>
+            Directory for basic metadata for Avi files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.BmpHeaderDirectory">
+            <summary>
+            Directory for basic metadata for Bmp files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.CanonMakernoteDirectory">
+            <summary>
+            Directory for tags specific to Canon cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.CasioType1MakernoteDirectory">
+            <summary>
+            Directory for tags specific to Casio (type 1) cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.CasioType2MakernoteDirectory">
+            <summary>
+            Directory for tags specific to Casio (type 2) cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.DjiMakernoteDirectory">
+            <summary>
+            Directory for tags specific to DJI aircraft cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.DuckyDirectory">
+            <summary>
+            Directory for tags from Photoshop "ducky" segments.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.EpsDirectory">
+            <summary>
+            Directory for basic metadata for Eps files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.ErrorDirectory">
+            <summary>
+            Directory for the reporting of errors.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.FileMetadataDirectory">
+            <summary>
+            Directory for OS tags.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.FileTypeDirectory">
+            <summary>
+            Directory for tags derived from filename.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.FlirCameraInfoDirectory">
+            <summary>
+            Directory for camera info tags specific to FLIR cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.FlirHeaderDirectory">
+            <summary>
+            Directory for header tags specific to FLIR cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.FlirMakernoteDirectory">
+            <summary>
+            Directory for tags specific to FLIR cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.FlirRawDataDirectory">
+            <summary>
+            Directory for raw tags specific to FLIR cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.FujifilmMakernoteDirectory">
+            <summary>
+            Directory for tags specific to Fujifilm cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.GeoTiffDirectory">
+            <summary>
+            Directory for tiff geo tags.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.GifAnimationDirectory">
+            <summary>
+            Directory for animation metadata for Gif files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.GifCommentDirectory">
+            <summary>
+            Directory for comment metadata for Gif files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.GifControlDirectory">
+            <summary>
+            Directory for control metadata for Gif files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.GifHeaderDirectory">
+            <summary>
+            Directory for header metadata for Gif files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.GifImageDirectory">
+            <summary>
+            Directory for basic metadata for Gif files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.HeicImagePropertiesDirectory">
+            <summary>
+            Directory for basic metadata for Heic files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.HeicThumbnailDirectory">
+            <summary>
+            Directory for basic metadata for Heic thumbnails.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.HuffmanTablesDirectory">
+            <summary>
+            Directory of tables for the DHT (Define Huffman Table(s)) segment.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.IccDirectory">
+            <summary>
+            Directory for basic metadata for Icc files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.IcoDirectory">
+            <summary>
+            Directory for basic metadata for Ico files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.IptcDirectory">
+            <summary>
+            Directory for tags used by the International Press Telecommunications Council (IPTC) metadata format.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.JfifDirectory">
+            <summary>
+            Directory for basic metadata for Jfif files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.JfxxDirectory">
+            <summary>
+            Directory for basic metadata for Jfxx files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.JpegCommentDirectory">
+            <summary>
+            Directory for comment metadata for Jpeg files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.JpegDirectory">
+            <summary>
+            Directory for basic metadata for Jpeg files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.JpegDnlDirectory">
+            <summary>
+            Directory for DNL metadata for Jpeg files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.KodakMakernoteDirectory">
+            <summary>
+            Directory for tags specific to Kodak cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.KyoceraMakernoteDirectory">
+            <summary>
+            Directory for tags specific to Kyocera cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.LeicaMakernoteDirectory">
+            <summary>
+            Directory for tags specific to Leica cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.LeicaType5MakernoteDirectory">
+            <summary>
+            Directory for tags specific to Leica (type 5) cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.Mp3Directory">
+            <summary>
+            Directory for basic metadata for Mp3 files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.NetpbmHeaderDirectory">
+            <summary>
+            Directory for header metadata for Netpbm files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.NikonPictureControl1Directory">
+            <summary>
+            Directory for picture control tags specific to Nikon (type 1) cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.NikonPictureControl2Directory">
+            <summary>
+            Directory for picture control tags specific to Nikon (type 1) cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.NikonType1MakernoteDirectory">
+            <summary>
+            Directory for tags specific to Nikon (type 1) cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.NikonType2MakernoteDirectory">
+            <summary>
+            Directory for tags specific to Nikon (type 1) cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.OlympusCameraSettingsMakernoteDirectory">
+            <summary>
+            Directory for camera settings tags specific to Olympus cameras (Epson, Konica, Minolta and Agfa...).
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.OlympusEquipmentMakernoteDirectory">
+            <summary>
+            Directory for equipment tags specific to Olympus cameras (Epson, Konica, Minolta and Agfa...).
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.OlympusFocusInfoMakernoteDirectory">
+            <summary>
+            Directory for focus info tags specific to Olympus cameras (Epson, Konica, Minolta and Agfa...).
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.OlympusImageProcessingMakernoteDirectory">
+            <summary>
+            Directory for image processing tags specific to Olympus cameras (Epson, Konica, Minolta and Agfa...).
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.OlympusMakernoteDirectory">
+            <summary>
+            Directory for tags specific to Olympus cameras (Epson, Konica, Minolta and Agfa...).
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.OlympusRawDevelopment2MakernoteDirectory">
+            <summary>
+            Directory for raw development 2 makernotes specific to Olympus cameras (Epson, Konica, Minolta and Agfa...).
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.OlympusRawDevelopmentMakernoteDirectory">
+            <summary>
+            Directory for raw development 2 makernotes specific to Olympus cameras (Epson, Konica, Minolta and Agfa...).
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.OlympusRawInfoMakernoteDirectory">
+            <summary>
+            Directory for raw info makernotes tags specific to Olympus cameras (Epson, Konica, Minolta and Agfa...).
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.PanasonicMakernoteDirectory">
+            <summary>
+            Directory for tags specific to Panasonic cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.PanasonicRawDistortionDirectory">
+            <summary>
+            Directory for raw distortion tags specific to Panasonic cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.PanasonicRawIfd0Directory">
+            <summary>
+            Directory for raw Ifd0 tags specific to Panasonic cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.PanasonicRawWbInfo2Directory">
+            <summary>
+            Directory for raw info tags specific to Panasonic cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.PanasonicRawWbInfoDirectory">
+            <summary>
+            Directory for raw info tags specific to Panasonic cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.PcxDirectory">
+            <summary>
+            Directory for basic metadata for Pcx files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.PentaxMakernoteDirectory">
+            <summary>
+            Directory for tags specific to Pentax cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.PentaxType2MakernoteDirectory">
+            <summary>
+            Directory for tags specific to Pentax (type 2) cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.PhotoshopDirectory">
+            <summary>
+            Directory for the metadata found in the APPD segment of a JPEG file saved by Photoshop.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.PngChromaticitiesDirectory">
+            <summary>
+            Directory for chromaticities metadata for Png files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.PngDirectory">
+            <summary>
+            Directory for basic metadata for Png files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.PrintIMDirectory">
+            <summary>
+            Directory for Epson proprietary metadata.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.PsdHeaderDirectory">
+            <summary>
+            Directory for header metadata for Psd files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.QuickTimeFileTypeDirectory">
+            <summary>
+            Directory for QuickTime file type metadata.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.QuickTimeMetadataHeaderDirectory">
+            <summary>
+            Directory for QuickTime metadata header tags.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.QuickTimeMovieHeaderDirectory">
+            <summary>
+            Directory for QuickTime movie header tags.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.QuickTimeTrackHeaderDirectory">
+            <summary>
+            Directory for QuickTime track header metadata.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.ReconyxHyperFire2MakernoteDirectory">
+            <summary>
+            Directory for tags specific to Reconyx HyperFire 2 cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.ReconyxHyperFireMakernoteDirectory">
+            <summary>
+            Directory for tags specific to Reconyx HyperFire cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.ReconyxUltraFireMakernoteDirectory">
+            <summary>
+            Directory for tags specific to Reconyx UltraFire cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.RicohMakernoteDirectory">
+            <summary>
+            Directory for tags specific to Ricoh cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.SamsungType2MakernoteDirectory">
+            <summary>
+            Directory for tags specific to certain 'newer' Samsung cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.SanyoMakernoteDirectory">
+            <summary>
+            Directory for tags specific to Sanyo cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.SigmaMakernoteDirectory">
+            <summary>
+            Directory for tags specific to Sigma cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.SonyType1MakernoteDirectory">
+            <summary>
+            Directory for tags specific to Sony (type 1) cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.SonyType6MakernoteDirectory">
+            <summary>
+            Directory for tags specific to Sony (type 6) cameras.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.TgaDeveloperDirectory">
+            <summary>
+            Directory for developer metadata for Tga files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.TgaExtensionDirectory">
+            <summary>
+            Directory for extention metadata for Tga files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.TgaHeaderDirectory">
+            <summary>
+            Directory for header metadata for Tga files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.WavFactDirectory">
+            <summary>
+            Directory for fact metadata for Wav files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.WavFormatDirectory">
+            <summary>
+            Directory for format metadata for Wav files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.WebPDirectory">
+            <summary>
+            Directory for basic metadata for WebP files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.XmpDirectory">
+            <summary>
+            Directory for basic metadata for Xmp files.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.ExifDirectoryType.Undefined">
+            <summary>
+            Undefined directory.
+            </summary>
+        </member>
         <member name="T:Openize.Heic.Decoder.HeicImageFrame">
             <summary>
             Heic image frame class.
@@ -175,6 +716,11 @@
         <member name="P:Openize.Heic.Decoder.HeicImageFrame.BitsPerChannel">
             <summary>
             Bits per channel with color data.
+            </summary>
+        </member>
+        <member name="F:Openize.Heic.Decoder.HeicImageFrame.Exif">
+            <summary>
+            Exchangeable image frame metadata.
             </summary>
         </member>
         <member name="P:Openize.Heic.Decoder.HeicImageFrame.alphaReference">
@@ -541,6 +1087,11 @@
         <member name="P:Openize.Heic.Decoder.HeicImage.Height">
             <summary>
             Height of the default image frame in pixels.
+            </summary>
+        </member>
+        <member name="P:Openize.Heic.Decoder.HeicImage.Exif">
+            <summary>
+            Exchangeable image metadata of the default image frame. 
             </summary>
         </member>
         <member name="M:Openize.Heic.Decoder.HeicImage.Load(System.IO.Stream)">

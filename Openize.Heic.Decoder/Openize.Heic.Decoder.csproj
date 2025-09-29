@@ -50,6 +50,8 @@
     <Compile Include="Context\pps_range_extension.cs" />
     <Compile Include="Context\pps_scc_extension.cs" />
     <Compile Include="AuxiliaryReferenceType.cs" />
+    <Compile Include="ExifData.cs" />
+    <Compile Include="ExifDirectoryType.cs" />
     <Compile Include="HeicImageFrame.cs" />
     <Compile Include="ImageFrameType.cs" />
     <Compile Include="IO\BitStreamWithNalSupport.cs" />
@@ -107,6 +109,10 @@
     <Compile Include="rsbp\NalUnit.cs" />
     <Compile Include="rsbp\NalUnitType.cs" />
     <Compile Include="YuvConverter.cs" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <PackageReference Include="MetadataExtractor" Version="2.8.1" />
   </ItemGroup>
 
   <ItemGroup>

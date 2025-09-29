@@ -2,6 +2,8 @@
 ## Documentation for Models
 
  - [Openize.Heic.Decoder.AuxiliaryReferenceType](AuxiliaryReferenceType.md)
+ - [Openize.Heic.Decoder.ExifData](ExifData.md)
+ - [Openize.Heic.Decoder.ExifDirectoryType](ExifDirectoryType.md)
  - [Openize.Heic.Decoder.HeicHeader](HeicHeader.md)
  - [Openize.Heic.Decoder.HeicImage](HeicImage.md)
  - [Openize.Heic.Decoder.HeicImageFrame](HeicImageFrame.md)

@@ -15,11 +15,11 @@ Openize.HEIC has support for:
 * alpha channels, depth maps, thumbnails, auxiliary images;
 * correct color transform according to embedded color profiles;
 * image transformations (crop, mirror, rotate), overlay images;
-* reading XML metadata.
+* reading XML metadata;
+* reading EXIF metadata.
 
 Openize.HEIC doesn't support:
 * HDR images;
-* reading EXIF metadata;
 * color transform according to EXIF contained color profiles;
 * HEIC coded animations that use P and B‑slices;
 * deblocking filter.
@@ -120,6 +120,17 @@ using (var fs = new FileStream("filename.heic", FileMode.Open))
 }
 ```
 
+### Read .heic file exif data
+```C#
+using MetadataExtractor.Formats.Exif;
+
+using (var fs = new FileStream("filename.heic", FileMode.Open))
+{
+    HeicImage image = HeicImage.Load(fs);
+    var xResolution = image.Exif.GetExifRawData(ExifDirectoryType.ExifIfd0Directory, ExifIfd0Directory.TagXResolution);
+}
+```
+
 ## Documentation
 
 All public classes, methods and properties are documented in corresponding API_README:
@@ -178,6 +189,8 @@ Openize.HEIC is available under [Openize License](LICENSE).
 > Openize does not and cannot grant You a patent license for the utilization of HEVC/H.265 image compression/decompression technologies.
 
 Openize.HEIC uses Openize.IsoBmff that is distributed under [MIT License](/Openize.IsoBmff/LICENSE).
+
+Openize.HEIC uses [MetadataExtractor](https://github.com/drewnoakes/metadata-extractor-dotnet) that is distributed under [Apache-2.0 license](https://github.com/drewnoakes/metadata-extractor-dotnet?tab=License-1-ov-file).
 
 ## OSS Notice
 Sample files used for tests and located in the "./Openize.Heic.Tests/TestsData/samples/nokia" folder belong to Nokia Technologies and are used according to [Nokia High-Efficiency Image File Format (HEIF) License](https://github.com/nokiatech/heif/blob/master/LICENSE.TXT)

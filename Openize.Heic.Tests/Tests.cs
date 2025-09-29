@@ -10,6 +10,7 @@
 
 namespace Openize.Heic.Tests
 {
+    using MetadataExtractor.Formats.Exif;
     using Openize.Heic.Decoder;
     using System.Threading.Tasks;
 
@@ -196,6 +197,31 @@ namespace Openize.Heic.Tests
                     var image = HeicImage.Load(fs);
                     var pixels = image.GetInt32Array(PixelFormat.Argb32);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Test decoding of the image exif data.
+        /// </summary>
+        [Test]
+        [TestCase("iphone_portrait_photo.heic")]
+        public void TestExifData(string filename)
+        {
+            using (var fs = new FileStream(Path.Combine(SamplesPath, filename), FileMode.Open))
+            {
+                var image = HeicImage.Load(fs);
+
+                Assert.That(
+                    image.Exif.GetExifRawData(ExifDirectoryType.ExifIfd0Directory, ExifIfd0Directory.TagXResolution), 
+                    Is.EqualTo(new MetadataExtractor.Rational(72, 1)));
+
+                Assert.That(
+                    image.Exif.GetExifRawData(ExifDirectoryType.ExifSubIfdDirectory, ExifSubIfdDirectory.TagExposureTime),
+                    Is.EqualTo(new MetadataExtractor.Rational(1, 50)));
+
+                Assert.That(
+                    image.Exif.GetExifRawData(ExifDirectoryType.ExifSubIfdDirectory, ExifSubIfdDirectory.TagExifImageWidth),
+                    Is.EqualTo(4032));
             }
         }
     }
