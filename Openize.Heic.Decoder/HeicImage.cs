@@ -8,14 +8,15 @@
  * available along with Openize.HEIC sources.
  */
 
+using MetadataExtractor.Formats.Exif;
 using Openize.Heic.Decoder.IO;
 using Openize.IsoBmff;
 using Openize.IsoBmff.IO;
 using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Linq;
 using System.Drawing;
+using System.IO;
+using System.Linq;
 
 namespace Openize.Heic.Decoder
 {
@@ -122,6 +123,11 @@ namespace Openize.Heic.Decoder
         /// </summary>
         public uint Height => DefaultFrame.Height;
 
+        /// <summary>
+        /// Exchangeable image metadata of the default image frame. 
+        /// </summary>
+        public ExifData Exif => DefaultFrame.Exif;
+
         #endregion
 
         #region Public Methods
@@ -217,6 +223,17 @@ namespace Openize.Heic.Decoder
             {
                 if (rawProperties.ContainsKey(frame.Value.ID))
                     frame.Value.LoadProperties(stream, rawProperties[frame.Value.ID]);
+
+                if (frame.Value.ImageType == ImageFrameType.Exif)
+                {
+                    var derived = Header.GetDerivedList(frame.Value.ID);
+                    var exif = new ExifData(stream, this, frame.Value);
+
+                    foreach (var derivedId in derived)
+                    {
+                        _frames[derivedId].Exif = exif;
+                    }
+                }
             }
         }
 

@@ -145,6 +145,11 @@ namespace Openize.Heic.Decoder
         /// </summary>
         public byte[] BitsPerChannel { get; private set; }
 
+        /// <summary>
+        /// Exchangeable image frame metadata.
+        /// </summary>
+        public ExifData Exif = null;
+
         #endregion
 
         #region Private Properties
