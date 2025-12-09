@@ -86,14 +86,24 @@ namespace Openize.Heic.Decoder
             stream.SetBytePosition(locationBox.base_offset + locationBox.extents[0].offset);
             var end = locationBox.base_offset + locationBox.extents[0].offset + locationBox.extents[0].length;
 
-            RawBytes = new byte[locationBox.extents[0].length - 10];
-
             int offset = stream.Read(32); // 0x00000006
-            int define = stream.Read(32); // 0x45786966 "Exif"
-            int zero = stream.Read(16); // 0x0000 "\0\0"
 
-            if (define != 0x45786966 || zero != 0x0000)
+            if (offset == 6)
+            {
+                int define = stream.Read(32); // 0x45786966 "Exif"
+                int zero = stream.Read(16); // 0x0000 "\0\0"
+
+                if (define != 0x45786966 || zero != 0x0000)
+                {
+                    throw new DataMisalignedException("Unexpected Exif header");
+                }
+            }
+            else if (offset > 0)
+            {
                 throw new DataMisalignedException("Unexpected Exif header");
+            }
+
+            RawBytes = new byte[locationBox.extents[0].length - 4 - offset];
 
             for (int i = 0; stream.GetBitPosition() / 8 < end; i++)
             {
