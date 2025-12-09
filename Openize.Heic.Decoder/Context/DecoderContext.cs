@@ -158,7 +158,16 @@ namespace Openize.Heic.Decoder
             bool firstQgInTile = false;
 
             if (picture.pps.tiles_enabled_flag)
-                throw new NotImplementedException("Tile mode is not supported");
+            {
+                //firstQgInTile recalculated
+                if ((xQg & ctbLSBMask) == 0 && (yQg & ctbLSBMask) == 0)
+                {
+                    int tileX = xQg >> picture.sps.CtbLog2SizeY;
+                    int tileY = yQg >> picture.sps.CtbLog2SizeY;
+
+                    firstQgInTile = picture.pps.check_if_tile_is_first(tileX, tileY);
+                }
+            }
 
             if (firstQgInSlice || firstQgInTile || (firstInCTBRow && picture.pps.entropy_coding_sync_enabled_flag))
             {

@@ -8,8 +8,9 @@
  * available along with Openize.HEIC sources.
  */
 
-using System.Collections.Generic;
 using Openize.Heic.Decoder.IO;
+using System;
+using System.Collections.Generic;
 
 namespace Openize.Heic.Decoder
 {
@@ -52,7 +53,7 @@ namespace Openize.Heic.Decoder
                     stream.Cabac.SyncTables();
                 }
 
-                end_of_slice_segment_flag = stream.Cabac.read_end_of_slice_segment_flag(); 
+                end_of_slice_segment_flag = stream.Cabac.read_end_of_slice_segment_flag();
 
                 header.CtbAddrInTs++;
                 if (header.CtbAddrInTs < sps.PicSizeInCtbsY)
@@ -71,11 +72,14 @@ namespace Openize.Heic.Decoder
                     header.pps.TileId[header.CtbAddrInTs] != header.pps.TileId[header.pps.CtbAddrRsToTs[header.CtbAddrInRs - 1]]))))
                 {
                     int one = stream.Cabac.read_end_of_subset_one_bit(); /* equal to 1; */
+                    
+                    if (one != 1)
+                        throw new DataMisalignedException("Unexpected slice-end bit!");
 
                     while (!stream.ByteAligned())
                         stream.SkipBits(1);
 
-                    stream.Cabac.ResetStreamState();
+                    stream.Cabac.Initialization(header);
                 }
             
             } while (!end_of_slice_segment_flag);

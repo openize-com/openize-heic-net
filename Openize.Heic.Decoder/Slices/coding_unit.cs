@@ -55,6 +55,10 @@ namespace Openize.Heic.Decoder
                     picture.SetCuPredMode(x0, y0, nCbS, 
                         stream.Cabac.read_pred_mode_flag() ? PredMode.MODE_INTRA : PredMode.MODE_INTER);
                 }
+                else
+                {
+                    picture.SetCuPredMode(x0, y0, nCbS, PredMode.MODE_INTRA);
+                }
 
                 if (header.pps.sps.sps_scc_ext.palette_mode_enabled_flag &&
                     picture.CuPredMode[x0, y0] == PredMode.MODE_INTRA &&

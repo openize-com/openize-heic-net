@@ -364,6 +364,28 @@ namespace Openize.Heic.Decoder
                 }
             }
         }
+
+        // Calcucation if tile is first (required in 8.6.1)
+        internal bool check_if_tile_is_first(int tileX, int tileY)
+        {
+            for (int i = 0; i <= num_tile_columns_minus1; i++)
+            {
+                if (colBd[i] == tileX)
+                {
+                    for (int k = 0; k <= num_tile_rows_minus1; k++)
+                    {
+                        if (rowBd[k] == tileY)
+                        {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+            }
+
+            return false;
+        }
     }
 
     internal class pps_3d_extension

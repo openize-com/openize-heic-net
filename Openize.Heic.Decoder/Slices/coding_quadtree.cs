@@ -25,7 +25,9 @@ namespace Openize.Heic.Decoder
             if (x0 + (1 << log2CbSize) <= header.pps.sps.pic_width_in_luma_samples &&
                 y0 + (1 << log2CbSize) <= header.pps.sps.pic_height_in_luma_samples &&
                 log2CbSize > sps.MinCbLog2SizeY)
+            {
                 split_cu_flag = stream.Cabac.read_split_cu_flag(x0, y0, picture, cqtDepth);
+            }
             else
             {
                 split_cu_flag = log2CbSize > sps.MinCbLog2SizeY;
