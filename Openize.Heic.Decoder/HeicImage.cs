@@ -141,6 +141,11 @@ namespace Openize.Heic.Decoder
         /// <returns>Returns a heic image object with meta data read.</returns>
         public static HeicImage Load(Stream stream)
         {
+            if (!CanLoad(stream))
+            {
+                throw new Exception("Not a HEIC image.");
+            }
+
             var bitstream = new BitStreamWithNalSupport(stream, 4);
             bitstream.SetBytePosition(0);
 
@@ -168,19 +173,24 @@ namespace Openize.Heic.Decoder
         /// <returns>True if file header contains heic signarure, false otherwise.</returns>
         public static bool CanLoad(Stream stream)
         {
-            var bitstream = new BitStreamWithNalSupport(stream);
+            try
+            {
+                var bitstream = new BitStreamWithNalSupport(stream);
+                var box = Box.ParseBox(bitstream);
 
-            var box = Box.ParseBox(bitstream);
+                if (!(box is FileTypeBox filetype))
+                    return false;
 
-            if (!(box is FileTypeBox filetype))
+                if (!filetype.IsBrandSupported(1751476579)) // heic (ASCII)
+                    return false;
+
+                bitstream.SetBytePosition(0);
+                return true;
+            }
+            catch
+            {
                 return false;
-
-            if (!filetype.IsBrandSupported(1751476579)) // heic (ASCII)
-                return false;
-
-            bitstream.SetBytePosition(0);
-
-            return true;
+            }
         }
 
         /// <summary>

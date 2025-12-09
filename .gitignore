@@ -9,3 +9,5 @@
 .vs
 
 *.nupkg
+
+*.log
