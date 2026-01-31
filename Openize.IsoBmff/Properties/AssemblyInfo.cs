@@ -1,6 +1,6 @@
 ﻿/*
  * Openize.IsoBmff
- * Copyright (c) 2024-2025 Openize Pty Ltd. 
+ * Copyright (c) 2024-2026 Openize Pty Ltd. 
  *
  * This file is part of Openize.IsoBmff.
  *
@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: AssemblyProduct("Openize.IsoBmff")]
 [assembly: AssemblyDescription("Openize.IsoBmff is an open source implementation of the ISO/IEC 14496-12:2015 ISO base media file format.")]
 [assembly: AssemblyCompany("Openize Pty Ltd.")]
-[assembly: AssemblyCopyright("Copyright © 2024-2025 Openize Pty Ltd.")]
+[assembly: AssemblyCopyright("Copyright © 2024-2026 Openize Pty Ltd.")]
 
-[assembly: AssemblyVersion("25.12.0")]
-[assembly: AssemblyFileVersion("25.12.0")]
+[assembly: AssemblyVersion("26.1.0")]
+[assembly: AssemblyFileVersion("26.1.0")]
