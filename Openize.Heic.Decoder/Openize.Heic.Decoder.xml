@@ -747,7 +747,7 @@
             <param name="parent">Parent image.</param>
             <param name="id">Frame identificator.</param>
         </member>
-        <member name="M:Openize.Heic.Decoder.HeicImageFrame.GetByteArray(Openize.Heic.Decoder.PixelFormat,System.Drawing.Rectangle)">
+        <member name="M:Openize.Heic.Decoder.HeicImageFrame.GetByteArray(Openize.Heic.Decoder.PixelFormat,Openize.Heic.Decoder.Rectangle)">
             <summary>
             Get pixel data in the format of byte array.
             <para>Each three or four bytes (the count depends on the pixel format) refer to one pixel left to right top to bottom line by line.</para>
@@ -756,7 +756,7 @@
             <param name="boundsRectangle">Bounds of the requested area.</param>
             <returns>Byte array, null if frame does not contain image data.</returns>
         </member>
-        <member name="M:Openize.Heic.Decoder.HeicImageFrame.GetInt32Array(Openize.Heic.Decoder.PixelFormat,System.Drawing.Rectangle)">
+        <member name="M:Openize.Heic.Decoder.HeicImageFrame.GetInt32Array(Openize.Heic.Decoder.PixelFormat,Openize.Heic.Decoder.Rectangle)">
             <summary>
             Get pixel data in the format of integer array. 
             <para>Each int value refers to one pixel left to right top to bottom line by line.</para>
@@ -1110,7 +1110,7 @@
             <param name="stream">File stream.</param>
             <returns>True if file header contains heic signarure, false otherwise.</returns>
         </member>
-        <member name="M:Openize.Heic.Decoder.HeicImage.GetByteArray(Openize.Heic.Decoder.PixelFormat,System.Drawing.Rectangle)">
+        <member name="M:Openize.Heic.Decoder.HeicImage.GetByteArray(Openize.Heic.Decoder.PixelFormat,Openize.Heic.Decoder.Rectangle)">
             <summary>
             Get pixel data of the default image frame in the format of byte array.
             <para>Each three or four bytes (the count depends on the pixel format) refer to one pixel left to right top to bottom line by line.</para>
@@ -1119,7 +1119,7 @@
             <param name="boundsRectangle">Bounds of the requested area.</param>
             <returns>Byte array, null if frame does not contain image data.</returns>
         </member>
-        <member name="M:Openize.Heic.Decoder.HeicImage.GetInt32Array(Openize.Heic.Decoder.PixelFormat,System.Drawing.Rectangle)">
+        <member name="M:Openize.Heic.Decoder.HeicImage.GetInt32Array(Openize.Heic.Decoder.PixelFormat,Openize.Heic.Decoder.Rectangle)">
             <summary>
             Get pixel data of the default image frame in the format of integer array. 
             <para>Each int value refers to one pixel left to right top to bottom line by line.</para>
@@ -1172,6 +1172,99 @@
         <member name="F:Openize.Heic.Decoder.PixelFormat.Bgra32">
             <summary>
             Specifies that the format is 32 bits per pixel; 8 bits each are used for the blue, green, red, and alpha components.
+            </summary>
+        </member>
+        <member name="T:Openize.Heic.Decoder.Rectangle">
+            <summary>
+            Stores a set of four integers that represent the location and size of a rectangle.
+            </summary>
+        </member>
+        <member name="P:Openize.Heic.Decoder.Rectangle.X">
+            <summary>
+            Gets or sets the x-coordinate of the upper-left corner of the rectangular region defined by this
+            <see cref='T:System.Drawing.Rectangle'/>.
+            </summary>
+        </member>
+        <member name="P:Openize.Heic.Decoder.Rectangle.Y">
+            <summary>
+            Gets or sets the y-coordinate of the upper-left corner of the rectangular region defined by this
+            <see cref='T:System.Drawing.Rectangle'/>.
+            </summary>
+        </member>
+        <member name="P:Openize.Heic.Decoder.Rectangle.Width">
+            <summary>
+            Gets or sets the width of the rectangular region defined by this Rectangle.
+            </summary>
+        </member>
+        <member name="P:Openize.Heic.Decoder.Rectangle.Height">
+            <summary>
+            Gets or sets the width of the rectangular region defined by this Rectangle.
+            </summary>
+        </member>
+        <member name="M:Openize.Heic.Decoder.Rectangle.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the Rectangle with the specified location and size.
+            </summary>
+        </member>
+        <member name="M:Openize.Heic.Decoder.Rectangle.FromLTRB(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Creates a new Rectangle with the specified location and size.
+            </summary>
+        </member>
+        <member name="P:Openize.Heic.Decoder.Rectangle.Left">
+            <summary>
+            Gets the x-coordinate of the upper-left corner of the rectangular region defined by this object.
+            </summary>
+        </member>
+        <member name="P:Openize.Heic.Decoder.Rectangle.Top">
+            <summary>
+            Gets the y-coordinate of the upper-left corner of the rectangular region defined by this object.
+            </summary>
+        </member>
+        <member name="P:Openize.Heic.Decoder.Rectangle.Right">
+            <summary>
+            Gets the x-coordinate of the lower-right corner of the rectangular region defined by this object.
+            </summary>
+        </member>
+        <member name="P:Openize.Heic.Decoder.Rectangle.Bottom">
+            <summary>
+            Gets the y-coordinate of the lower-right corner of the rectangular region defined by this object.
+            </summary>
+        </member>
+        <member name="P:Openize.Heic.Decoder.Rectangle.IsEmpty">
+            <summary>
+            Returns true if all the numeric properties of this Rectangle have values of zero; otherwise, false.
+            </summary>
+        </member>
+        <member name="M:Openize.Heic.Decoder.Rectangle.Equals(System.Object)">
+            <summary>
+            Tests whether <paramref name="obj"/> is a Rectangle with the same location and size of this Rectangle.
+            </summary>
+        </member>
+        <member name="M:Openize.Heic.Decoder.Rectangle.Equals(Openize.Heic.Decoder.Rectangle)">
+            <summary>
+            Tests whether the current Rectangle is equal to another Rectangle.
+            </summary>
+        </member>
+        <member name="M:Openize.Heic.Decoder.Rectangle.op_Equality(Openize.Heic.Decoder.Rectangle,Openize.Heic.Decoder.Rectangle)">
+            <summary>
+            Tests whether two Rectangle objects have equal location and size.
+            </summary>
+        </member>
+        <member name="M:Openize.Heic.Decoder.Rectangle.op_Inequality(Openize.Heic.Decoder.Rectangle,Openize.Heic.Decoder.Rectangle)">
+            <summary>
+            Tests whether two Rectangle objects differ in location or size.
+            </summary>
+        </member>
+        <member name="M:Openize.Heic.Decoder.Rectangle.GetHashCode">
+            <summary>
+            Returns the hash code for this Rectangle.
+            </summary>
+            <returns>An integer that represents the hash code for this rectangle.</returns>
+        </member>
+        <member name="M:Openize.Heic.Decoder.Rectangle.ToString">
+            <summary>
+            Converts the attributes of this Rectangle to a human readable string.
             </summary>
         </member>
         <member name="T:Openize.Heic.Decoder.MathExtra">

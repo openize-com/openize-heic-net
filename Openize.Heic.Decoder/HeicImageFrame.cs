@@ -12,7 +12,6 @@ using Openize.Heic.Decoder.IO;
 using Openize.IsoBmff;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 
 namespace Openize.Heic.Decoder

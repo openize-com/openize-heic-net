@@ -8,13 +8,11 @@
  * available along with Openize.HEIC sources.
  */
 
-using MetadataExtractor.Formats.Exif;
 using Openize.Heic.Decoder.IO;
 using Openize.IsoBmff;
 using Openize.IsoBmff.IO;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 
