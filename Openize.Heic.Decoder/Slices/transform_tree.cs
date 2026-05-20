@@ -9,6 +9,7 @@
  */
 
 using Openize.Heic.Decoder.IO;
+using System;
 
 namespace Openize.Heic.Decoder
 {
@@ -23,9 +24,34 @@ namespace Openize.Heic.Decoder
             var sps = header.pps.sps;
             var picture = header.parentPicture;
 
-            if (picture.cbf_cb[x0, y0] == null) picture.cbf_cb[x0, y0] = new bool[MaxTrafoDepth + 1];
-            if (picture.cbf_cr[x0, y0] == null) picture.cbf_cr[x0, y0] = new bool[MaxTrafoDepth + 1];
-            if (picture.cbf_luma[x0, y0] == null) picture.cbf_luma[x0, y0] = new bool[MaxTrafoDepth + 1];
+            int realMaxTrafoDepth = Math.Max((int)MaxTrafoDepth, trafoDepth);
+
+            if (picture.cbf_cb[x0, y0] == null)
+            {
+                picture.cbf_cb[x0, y0] = new bool[realMaxTrafoDepth + 1];
+            }
+            else if (picture.cbf_cb[x0, y0].Length <= trafoDepth)
+            {
+                Array.Resize(ref picture.cbf_cb[x0, y0], realMaxTrafoDepth + 1);
+            }
+
+            if (picture.cbf_cr[x0, y0] == null)
+            {
+                picture.cbf_cr[x0, y0] = new bool[realMaxTrafoDepth + 1];
+            }
+            else if (picture.cbf_cr[x0, y0].Length <= trafoDepth)
+            {
+                Array.Resize(ref picture.cbf_cr[x0, y0], realMaxTrafoDepth + 1);
+            }
+
+            if (picture.cbf_luma[x0, y0] == null)
+            {
+                picture.cbf_luma[x0, y0] = new bool[realMaxTrafoDepth + 1];
+            }
+            else if (picture.cbf_luma[x0, y0].Length <= trafoDepth)
+            {
+                Array.Resize(ref picture.cbf_luma[x0, y0], realMaxTrafoDepth + 1);
+            }
 
             if (log2TrafoSize <= sps.MaxTbLog2SizeY &&
                 log2TrafoSize > sps.MinTbLog2SizeY &&
