@@ -161,11 +161,11 @@ namespace Openize.Heic.Decoder
                     return new HeicImage(new HeicHeader(box as MetaBox), bitstream);
             }
 
-            throw new Exception("Meta box not found.");
+            throw new EndOfStreamException("Meta box not found.");
         }
 
         /// <summary>
-        /// Checks if the stream can be read as a heic image.
+        /// Checks if the image header contains heic signarure.
         /// </summary>
         /// <param name="stream">File stream.</param>
         /// <returns>True if file header contains heic signarure, false otherwise.</returns>

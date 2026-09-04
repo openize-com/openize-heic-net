@@ -8,6 +8,7 @@ If there is still enough data in the buffer, the data is read from it.
 
 Name | Type | Description | Parameters
 ------------ | ------------- | ------------- | -------------
+**GetUnreadCount** | **ulong** | Gets the amount of unread bytes in the stream. Ignores the buffer. | 
 **GetBitPosition** | **ulong** | Gets the current position within the bitstream.<br />The bitstream position is x8 of stream position, adjusted according to the number of bits read from the latest byte. | 
 **SetBytePosition** | **void** | Sets the current position within the bitstream. | long <b>bytePosition</b> - The new byte position within the bitstream.
 **ByteAligned** | **bool** | Indicates if the current position in the bitstream is on a byte boundary.<br />Returns true if the current position in the bitstream is on a byte boundary, false otherwise. | 
@@ -26,6 +27,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **stream** | **Stream** | File stream. | 
 **state** | **BitReaderState** | Bit reader state. | 
+**Length** | **long** | A long value representing the length of the stream in bytes. | 
 
 ## Constructors
 

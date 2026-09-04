@@ -11,6 +11,7 @@
 using Openize.IsoBmff.IO;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Openize.IsoBmff
 {
@@ -103,11 +104,18 @@ namespace Openize.IsoBmff
         public static Box ParseBox(BitStreamReader stream)
         {
             ulong startPosition = stream.GetBitPosition();
+            ulong unread = stream.GetUnreadCount();
             ulong size = (ulong)stream.Read(32);
             BoxType type = (BoxType)stream.Read(32);
 
+            if (size == 0)
+                throw new EndOfStreamException();
+
             if (size == 1)
                 size = (ulong)stream.Read(32) << 32 | (ulong)stream.Read(32);
+
+            if (unread < size)
+                throw new EndOfStreamException("Isobmff " + type + " box is truncated.");
 
             Box box;
             switch (type)

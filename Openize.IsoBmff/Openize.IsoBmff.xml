@@ -1633,12 +1633,23 @@
             Bit reader state.
             </summary>
         </member>
+        <member name="P:Openize.IsoBmff.IO.BitStreamReader.Length">
+            <summary>
+            A long value representing the length of the stream in bytes.
+            </summary>
+        </member>
         <member name="M:Openize.IsoBmff.IO.BitStreamReader.#ctor(System.IO.Stream,System.Int32)">
             <summary>
             The constructor takes a Stream object and an optional buffer size as parameters.
             </summary>
             <param name="stream">The source stream.</param>
             <param name="bufferSize">The buffer size.</param>
+        </member>
+        <member name="M:Openize.IsoBmff.IO.BitStreamReader.GetUnreadCount">
+            <summary>
+            Gets the amount of unread bytes in the stream. Ignores the buffer.
+            </summary>
+            <returns>The ulong amount.</returns>
         </member>
         <member name="M:Openize.IsoBmff.IO.BitStreamReader.GetBitPosition">
             <summary>
