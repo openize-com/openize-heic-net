@@ -32,6 +32,11 @@ namespace Openize.IsoBmff.IO
 		/// </summary>
         protected BitReaderState state;
 
+        /// <summary>
+        /// A long value representing the length of the stream in bytes.
+        /// </summary>
+        public long Length => stream.Length;
+
 		/// <summary>
 		/// The constructor takes a Stream object and an optional buffer size as parameters.
 		/// </summary>
@@ -54,6 +59,15 @@ namespace Openize.IsoBmff.IO
 			state.BufferActiveLength = bufferSize;
             state.BufferPosition = -1;
 		}
+
+        /// <summary>
+        /// Gets the amount of unread bytes in the stream. Ignores the buffer.
+        /// </summary>
+        /// <returns>The ulong amount.</returns>
+        public ulong GetUnreadCount()
+        {
+            return (ulong)(stream.Length - stream.Position);
+        }
 
         /// <summary>
         /// Gets the current position within the bitstream.

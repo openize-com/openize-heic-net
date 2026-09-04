@@ -1105,7 +1105,7 @@
         </member>
         <member name="M:Openize.Heic.Decoder.HeicImage.CanLoad(System.IO.Stream)">
             <summary>
-            Checks if the stream can be read as a heic image.
+            Checks if the image header contains heic signarure.
             </summary>
             <param name="stream">File stream.</param>
             <returns>True if file header contains heic signarure, false otherwise.</returns>

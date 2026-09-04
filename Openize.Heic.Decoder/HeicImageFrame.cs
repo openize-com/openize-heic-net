@@ -12,6 +12,7 @@ using Openize.Heic.Decoder.IO;
 using Openize.IsoBmff;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Openize.Heic.Decoder
@@ -595,6 +596,10 @@ namespace Openize.Heic.Decoder
         private void LoadHvcRawPixels()
         {
             stream.CurrentImageId = id;
+
+            if (locationBox.base_offset + locationBox.extents[0].offset > stream.Length)
+                throw new EndOfStreamException("Image frame offset exceeds total stream length.");
+
             stream.SetBytePosition(locationBox.base_offset + locationBox.extents[0].offset);
 
             var end = locationBox.base_offset + locationBox.extents[0].offset + locationBox.extents[0].length;

@@ -224,5 +224,36 @@ namespace Openize.Heic.Tests
                     Is.EqualTo(4032));
             }
         }
+
+
+        [Test]
+        [Timeout(1000)]
+
+        [TestCase(24, typeof(EndOfStreamException), "Meta box not found.")]  // only ftyp box present
+        [TestCase(858, typeof(EndOfStreamException), "Image frame offset exceeds total stream length.")] // ftyp and meta boxes present
+
+        [TestCase(64, typeof(EndOfStreamException), "Isobmff meta box is truncated.")]
+        [TestCase(128, typeof(EndOfStreamException), "Isobmff meta box is truncated.")]
+        [TestCase(256, typeof(EndOfStreamException), "Isobmff meta box is truncated.")]
+
+        [TestCase(1024, typeof(DataMisalignedException), "Unexpected slice-end bit!")] // image frame data truncated
+        public void TruncatedTest(int bytesToRead, Type expectedExceptionType, string expectedMessageSubstring)
+        {
+            byte[] truncated = new byte[bytesToRead];
+            using (var fs = new FileStream(Path.Combine(SamplesPath, "gimp_with_clap.heic"), FileMode.Open))
+            {
+                fs.ReadExactly(truncated, 0, bytesToRead);
+            }
+
+            using var stream = new MemoryStream(truncated, false);
+
+            var ex = Assert.Throws(expectedExceptionType, () =>
+            {
+                var image = HeicImage.Load(stream);
+                var pixels = image.GetInt32Array(PixelFormat.Argb32);
+            });
+
+            Assert.That(ex.Message, Does.Contain(expectedMessageSubstring));
+        }
     }
 }
